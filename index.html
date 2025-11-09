@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeless: The Last Artifacts</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game">
+    <header id="hud">
+      <div class="hud-section">
+        <div class="label">Sanity</div>
+        <div id="sanity-bar">
+          <div id="sanity-fill"></div>
+        </div>
+        <div id="sanity-value">100%</div>
+      </div>
+      <div class="hud-section">
+        <div class="label">Chronometer</div>
+        <div id="clock">05:00</div>
+      </div>
+      <div class="hud-section">
+        <button id="restart-btn" class="ghost">Restart Run</button>
+      </div>
+    </header>
+
+    <main id="stage">
+      <section id="scene">
+        <div id="scene-board"></div>
+        <aside id="scene-info">
+          <h1 id="scene-title"></h1>
+          <p id="scene-description"></p>
+          <div id="scene-objective"></div>
+        </aside>
+      </section>
+
+      <section id="inventory">
+        <h2>Artifacts</h2>
+        <ul id="inventory-items"></ul>
+      </section>
+
+      <section id="log-panel">
+        <h2>Log</h2>
+        <div id="log"></div>
+      </section>
+    </main>
+
+    <footer id="controls">
+      <button id="proceed-btn" disabled>Advance</button>
+    </footer>
+  </div>
+
+  <div id="modal" class="hidden" role="dialog" aria-modal="true">
+    <div id="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-body"></p>
+      <div id="modal-choices"></div>
+      <button id="modal-close">Close</button>
+    </div>
+  </div>
+
+  <template id="hotspot-template">
+    <button class="hotspot" type="button"></button>
+  </template>
+
+  <script src="main.js"></script>
+</body>
+</html>
