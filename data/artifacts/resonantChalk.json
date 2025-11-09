@@ -1,0 +1,42 @@
+﻿{
+  "id": "resonantChalk",
+  "name": "Resonant Chalk",
+  "rarity": "common",
+  "summary": "Chalk that hums at the same pitch as the hourglass shell.",
+  "positive": "Marks stable paths that ease future searches.",
+  "negative": "The resonance lingers in your skull, slightly increasing drain.",
+  "neutral": "Lines drawn with it shimmer before settling solid.",
+  "effects": [
+    {
+      "type": "sceneFlag",
+      "key": "searchAssist",
+      "value": true,
+      "message": "Resonant guidelines etch themselves across the floor.",
+      "tone": "positive"
+    },
+    {
+      "type": "drain",
+      "amount": 0.05,
+      "message": "The residual hum vibrates behind your eyes."
+    },
+    {
+      "type": "combo",
+      "requires": [
+        "lanternBeetle"
+      ],
+      "message": "Resonant Chalk locks onto the beetle's beam, mapping hidden hollows.",
+      "effects": [
+        {
+          "type": "hint",
+          "message": "The chalk underlines the precise search motion to take next."
+        },
+        {
+          "type": "momentum",
+          "direction": "cool",
+          "amount": 3,
+          "message": "Guided light smooths the chamber's turbulence."
+        }
+      ]
+    }
+  ]
+}

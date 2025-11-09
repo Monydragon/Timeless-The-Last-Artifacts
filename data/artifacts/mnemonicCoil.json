@@ -1,0 +1,10 @@
+﻿{
+  "id": "mnemonicCoil",
+  "name": "Mnemonic Coil",
+  "rarity": "common",
+  "summary": "Stores puzzle solutions at the price of buried memories.",
+  "positive": "Unlocks an insight that solves complex machinery.",
+  "negative": "Forgets stabilizing thoughts, lowering sanity.",
+  "neutral": null,
+  "applyScript": "(gameState, context) => {\n      adjustSanity(gameState, -6, \"Memories slough away to feed the coil.\");\n      context.sceneState.flags.autoSolve = true;\n      addLog(\"New pathways unfold in your mind; some mechanisms seem trivial now.\", \"positive\");\n    }"
+}

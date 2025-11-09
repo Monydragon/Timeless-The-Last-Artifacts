@@ -1,0 +1,30 @@
+﻿{
+  "id": "lastArchiveFragment",
+  "name": "Last Archive Fragment",
+  "rarity": "timeless",
+  "summary": "The final fragment of the hourglass chronicle, etched across mirrored sand.",
+  "positive": "Auto-solves a challenge, grants insight, and chills momentum deeply.",
+  "negative": "Reading it strips away precious sanity.",
+  "neutral": "Lines of script rearrange themselves as you watch.",
+  "effects": [
+    {
+      "type": "autoSolve",
+      "message": "Recorded knowledge guides your hands without hesitation."
+    },
+    {
+      "type": "hint",
+      "message": "Footnotes unveil alternate routes and hidden doors."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 16,
+      "message": "Documented procedures calm the volatile flow."
+    },
+    {
+      "type": "sanity",
+      "amount": -9,
+      "message": "Ingesting history leaves you hollow and ancient."
+    }
+  ]
+}

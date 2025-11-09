@@ -1,0 +1,29 @@
+﻿{
+  "id": "sandsongHeartstone",
+  "name": "Sandsong Heartstone",
+  "rarity": "timeless",
+  "summary": "A heartstone that sings harmonics older than recorded time.",
+  "positive": "Floods you with sanity and hushes the hourglass for a long stretch.",
+  "negative": "Its resonance risks igniting a later surge.",
+  "neutral": "A steady song vibrates through your bones when you hold it.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 20,
+      "message": "Ancient harmonics rebuild your resolve from the ground up."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 7,
+      "message": "For a span the hourglass listens in reverent silence.",
+      "tone": "neutral"
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 10,
+      "message": "Stored song energy eventually cascades outward."
+    }
+  ]
+}

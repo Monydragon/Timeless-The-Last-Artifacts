@@ -1,0 +1,26 @@
+﻿{
+  "id": "gearwrightGauntlet",
+  "name": "Gearwright Gauntlet",
+  "rarity": "rare",
+  "summary": "A gauntlet packed with micro tools for on-the-fly repairs.",
+  "positive": "Auto-completes a complex mechanism and reduces drain modestly.",
+  "negative": "Its heavy actuation pushes the sands faster.",
+  "neutral": "Tiny pistons flex along your fingers.",
+  "effects": [
+    {
+      "type": "autoSolve",
+      "message": "The gauntlet dismantles and reassembles the mechanism instantly."
+    },
+    {
+      "type": "drain",
+      "amount": -0.1,
+      "message": "You work with confident efficiency."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 3,
+      "message": "Spent pistons vent steam into the chamber."
+    }
+  ]
+}

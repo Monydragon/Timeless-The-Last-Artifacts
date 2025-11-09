@@ -1,0 +1,26 @@
+﻿{
+  "id": "panelHarmonizer",
+  "name": "Panel Harmonizer",
+  "rarity": "common",
+  "summary": "A tuning fork tuned to the hourglass panels.",
+  "positive": "Auto-synchronizes a stubborn mechanism.",
+  "negative": "The resonance rattles sanity and heats the tempo.",
+  "neutral": "It leaves hairline waves shimmering across the glass.",
+  "effects": [
+    {
+      "type": "autoSolve",
+      "message": "The fork thrums until the mechanism falls into place."
+    },
+    {
+      "type": "sanity",
+      "amount": -4,
+      "message": "The vibration crawls through your jaw."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 2,
+      "message": "Shockwaves race through the suspended sand."
+    }
+  ]
+}

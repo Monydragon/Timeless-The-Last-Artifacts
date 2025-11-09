@@ -1,0 +1,28 @@
+﻿{
+  "id": "hourglassFiddle",
+  "name": "Hourglass Fiddle",
+  "rarity": "uncommon",
+  "summary": "A fiddle strung with threads of powdered sand and brass.",
+  "positive": "Its song restores sanity and coaxes the chamber toward calm.",
+  "negative": "Playing it demands focus, slightly raising the drain afterward.",
+  "neutral": "Notes hang in the air as shimmering grains.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 9,
+      "message": "The melody drowns out the hourglass's frantic hiss."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 3,
+      "message": "Notes settle onto the sand, urging it to stillness.",
+      "tone": "neutral"
+    },
+    {
+      "type": "drain",
+      "amount": 0.15,
+      "message": "Your bow arm aches from holding the tempo steady."
+    }
+  ]
+}

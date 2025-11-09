@@ -1,0 +1,22 @@
+﻿{
+  "id": "buzzingValve",
+  "name": "Buzzing Valve",
+  "rarity": "common",
+  "summary": "A sputtering valve that vents compressed chronal pressure.",
+  "positive": "Releases a chunk of stored momentum in a single hiss.",
+  "negative": "The screech jars your mind loose from its moorings.",
+  "neutral": "It warms in your palm whenever pressure is about to spike.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 7,
+      "message": "A plume of glittering sand blasts outward and settles calm."
+    },
+    {
+      "type": "sanity",
+      "amount": -4,
+      "message": "The valve's shriek rattles your teeth."
+    }
+  ]
+}

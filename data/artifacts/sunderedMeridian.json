@@ -1,0 +1,29 @@
+﻿{
+  "id": "sunderedMeridian",
+  "name": "Sundered Meridian",
+  "rarity": "legendary",
+  "summary": "A broken meridian rod that redirects the flow of time itself.",
+  "positive": "Converts a surge of momentum into renewed clarity.",
+  "negative": "Using it hurts, carving away sanity.",
+  "neutral": "Hairline cracks glow whenever danger looms.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 14,
+      "message": "The meridian reroutes violent currents into distant space."
+    },
+    {
+      "type": "sanity",
+      "amount": -7,
+      "message": "Crosscurrents scald your thoughts as they pass."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 4,
+      "message": "Redirected flows leave the chamber in rare equilibrium.",
+      "tone": "neutral"
+    }
+  ]
+}

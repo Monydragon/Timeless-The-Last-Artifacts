@@ -1,0 +1,25 @@
+﻿{
+  "id": "stitchlightThread",
+  "name": "Stitchlight Thread",
+  "rarity": "common",
+  "summary": "Thread drawn from a loom of frozen lightning.",
+  "positive": "Weaves a protective ward and restores a touch of focus.",
+  "negative": "The crackling strand raises the drain slightly.",
+  "neutral": "It flickers between solid filament and blue flame.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 3,
+      "message": "You breathe easier as the thread tightens around your shoulders."
+    },
+    {
+      "type": "shield",
+      "message": "The stitchlight hardens into a brief barrier."
+    },
+    {
+      "type": "drain",
+      "amount": 0.1,
+      "message": "Residual sparks nip at your clarity."
+    }
+  ]
+}

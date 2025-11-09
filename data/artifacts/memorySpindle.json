@@ -1,0 +1,26 @@
+﻿{
+  "id": "memorySpindle",
+  "name": "Memory Spindle",
+  "rarity": "uncommon",
+  "summary": "A spindle that winds puzzle steps around a crystalline core.",
+  "positive": "Auto-resolves a complex puzzle while venting some momentum.",
+  "negative": "Feeding it costs a chunk of recollection.",
+  "neutral": "Stories etched along the spindle glow as it turns.",
+  "effects": [
+    {
+      "type": "autoSolve",
+      "message": "The spindle unwinds and the mechanism obeys."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 5,
+      "message": "Captured steps release as a soothing pulse."
+    },
+    {
+      "type": "sanity",
+      "amount": -6,
+      "message": "Names of old friends slip just out of reach."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+﻿{
+  "id": "clockdustSachet",
+  "name": "Clockdust Sachet",
+  "rarity": "common",
+  "summary": "A pouch of gray dust that slows whatever it coats.",
+  "positive": "Smothers a swell of momentum and invites a calm pocket.",
+  "negative": "The dust seeps into your lungs, stinging the mind.",
+  "neutral": "When released it hangs in midair like a suspended fog.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 8,
+      "message": "Dust blankets the chamber, damping every motion."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 2,
+      "message": "For a blink the chamber moves as if submerged.",
+      "tone": "neutral"
+    },
+    {
+      "type": "sanity",
+      "amount": -2,
+      "message": "You cough as metallic grit scratches your throat."
+    },
+    {
+      "type": "combo",
+      "requires": [
+        "steamDraught"
+      ],
+      "message": "Clockdust mixes with steam, sealing the chamber in gentle suspension.",
+      "effects": [
+        {
+          "type": "momentum",
+          "direction": "cool",
+          "amount": 4,
+          "message": "Suspended vapors slow the hourglass heartbeat."
+        }
+      ]
+    }
+  ]
+}

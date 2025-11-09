@@ -1,0 +1,27 @@
+﻿{
+  "id": "amberEchoPin",
+  "name": "Amber Echo Pin",
+  "rarity": "common",
+  "summary": "Fossilized sand that vibrates with faint resonant echoes.",
+  "positive": "Bleeds momentum away into a patient hum.",
+  "negative": "Each vibration steals a fragment of memory.",
+  "neutral": "Within the amber a miniature hourglass rotates slowly.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 5,
+      "message": "The pin drinks in restless waves of sand."
+    },
+    {
+      "type": "sanity",
+      "amount": -3,
+      "message": "Fragments of your own echo crumble with it."
+    },
+    {
+      "type": "log",
+      "message": "Soft humming trails along the glass, tracing the relic's outline.",
+      "tone": "neutral"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+﻿{
+  "id": "primeHourSeed",
+  "name": "Prime Hour Seed",
+  "rarity": "timeless",
+  "summary": "A seed containing the primordial cadence of the hourglass.",
+  "positive": "Resets momentum to near zero and blankets the chamber in calm.",
+  "negative": "The seed roots into you, raising drain afterward.",
+  "neutral": "It pulses with the rhythm of an unseen giant heart.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 30,
+      "message": "The seed germinates, devouring turbulent sand in one breath."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 8,
+      "message": "New growth of possibility steadies every grain.",
+      "tone": "neutral"
+    },
+    {
+      "type": "drain",
+      "amount": 0.35,
+      "message": "Roots tap into your stamina to keep growing."
+    }
+  ]
+}

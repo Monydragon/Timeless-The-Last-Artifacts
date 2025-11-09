@@ -1,0 +1,40 @@
+﻿{
+  "id": "eternumCoil",
+  "name": "Eternum Coil",
+  "rarity": "timeless",
+  "summary": "A coil that can store entire timelines if given enough resolve.",
+  "positive": "Grants scan insight, a free escape, and a protective ward.",
+  "negative": "The coil insists on constant attention, accelerating drain and shaving sanity.",
+  "neutral": "Its loops glow with slow-moving constellations.",
+  "effects": [
+    {
+      "type": "scanAssist",
+      "message": "Coiled timelines illuminate every hidden route.",
+      "tone": "positive"
+    },
+    {
+      "type": "freeEscape",
+      "message": "One stored timeline guarantees an exit when you demand it."
+    },
+    {
+      "type": "shield",
+      "message": "Layered loops wrap around you like armor."
+    },
+    {
+      "type": "drain",
+      "amount": 0.3,
+      "message": "Maintaining the coil's tension quickens your pulse."
+    },
+    {
+      "type": "sanity",
+      "amount": -5,
+      "message": "Keeping so many timelines balanced wears at you."
+    },
+    {
+      "type": "grantArtifact",
+      "rarity": "legendary",
+      "message": "{artifact} unfurls from the Eternum Coil's inner loop.",
+      "tone": "system"
+    }
+  ]
+}

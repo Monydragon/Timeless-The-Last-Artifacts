@@ -1,0 +1,29 @@
+﻿{
+  "id": "paradoxAtlas",
+  "name": "Paradox Atlas",
+  "rarity": "legendary",
+  "summary": "An atlas mapping recursive layouts of the hourglass.",
+  "positive": "Devours a massive swell of momentum and yields a long calm stretch.",
+  "negative": "The map's contradictions cost a chunk of sanity.",
+  "neutral": "Its pages rearrange themselves every time you blink.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 18,
+      "message": "You fold the atlas until turbulence collapses into flat lines."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 5,
+      "message": "Layered maps settle into a stable rhythm.",
+      "tone": "neutral"
+    },
+    {
+      "type": "sanity",
+      "amount": -8,
+      "message": "Your sense of direction fractures around impossible corridors."
+    }
+  ]
+}

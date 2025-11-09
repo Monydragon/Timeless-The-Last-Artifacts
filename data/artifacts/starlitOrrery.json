@@ -1,0 +1,26 @@
+﻿{
+  "id": "starlitOrrery",
+  "name": "Starlit Orrery",
+  "rarity": "rare",
+  "summary": "A miniature orrery tracking distant hourglass shards.",
+  "positive": "Grants a free escape route and redraws momentum gently.",
+  "negative": "Studying its stars drains a measure of your stamina.",
+  "neutral": "Planets of sand orbit in precise miniature ellipses.",
+  "effects": [
+    {
+      "type": "freeEscape",
+      "message": "A safe trajectory unfolds from the orrery."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 5,
+      "message": "Orbital adjustments bleed energy away."
+    },
+    {
+      "type": "sanity",
+      "amount": -5,
+      "message": "Celestial calculus leaves you glassy-eyed."
+    }
+  ]
+}

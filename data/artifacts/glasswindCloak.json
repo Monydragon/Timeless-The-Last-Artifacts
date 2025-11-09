@@ -1,0 +1,28 @@
+﻿{
+  "id": "glasswindCloak",
+  "name": "Glasswind Cloak",
+  "rarity": "legendary",
+  "summary": "A cloak woven from gasified sand cooled into thread.",
+  "positive": "Wraps you in calm and bolsters sanity.",
+  "negative": "The cloak siphons a bit more drain as it flutters.",
+  "neutral": "It ripples like liquid glass caught in a breeze.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 12,
+      "message": "The cloak's chill clears every anxious tremor."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 6,
+      "message": "Glasswind eddies hush the chamber.",
+      "tone": "neutral"
+    },
+    {
+      "type": "drain",
+      "amount": 0.25,
+      "message": "Maintaining the cloak's shimmer taxes you."
+    }
+  ]
+}

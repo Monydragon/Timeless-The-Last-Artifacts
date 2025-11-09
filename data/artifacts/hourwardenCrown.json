@@ -1,0 +1,30 @@
+﻿{
+  "id": "hourwardenCrown",
+  "name": "Hourwarden Crown",
+  "rarity": "legendary",
+  "summary": "The ceremonial crown of the hourglass wardens.",
+  "positive": "Guarantees an escape route and a sturdy ward.",
+  "negative": "Its authority carries a heavy weight of momentum.",
+  "neutral": "Sandstorms inside the crown settle when you wear it.",
+  "effects": [
+    {
+      "type": "freeEscape",
+      "message": "The crown commands a gate to open when needed."
+    },
+    {
+      "type": "shield",
+      "message": "Authority condenses into a radiant barrier."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 5,
+      "message": "Opposing forces bristle against the crown's decree."
+    },
+    {
+      "type": "sanity",
+      "amount": 6,
+      "message": "Duty steels your mind despite the strain."
+    }
+  ]
+}

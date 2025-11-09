@@ -1,0 +1,29 @@
+﻿{
+  "id": "celestialEscapement",
+  "name": "Celestial Escapement",
+  "rarity": "legendary",
+  "summary": "A gleaming escapement that syncs with distant constellations.",
+  "positive": "Greatly lowers drain and ushers in a deep calm.",
+  "negative": "The enforced order stores up a later burst of heat.",
+  "neutral": "Star motes orbit the escapement in perfect cadence.",
+  "effects": [
+    {
+      "type": "drain",
+      "amount": -0.5,
+      "message": "Each tick lines up with a calming stellar beat."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 5,
+      "message": "Cosmic rhythm hushes the hourglass.",
+      "tone": "neutral"
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 7,
+      "message": "Stored starlight crackles along the glass."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+﻿{
+  "id": "goldenSingularity",
+  "name": "Golden Singularity",
+  "rarity": "legendary",
+  "summary": "A compressed singularity of gilded sand chained to a ring.",
+  "positive": "Collapses vast momentum instantly.",
+  "negative": "The singularity hungers, raising drain and costing sanity.",
+  "neutral": "Tiny arcs of lightning crawl across its surface.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 20,
+      "message": "The singularity devours every turbulent eddy nearby."
+    },
+    {
+      "type": "drain",
+      "amount": 0.3,
+      "message": "Feeding it leaves you hollow and accelerated."
+    },
+    {
+      "type": "sanity",
+      "amount": -8,
+      "message": "You feel something permanent slip away."
+    }
+  ]
+}

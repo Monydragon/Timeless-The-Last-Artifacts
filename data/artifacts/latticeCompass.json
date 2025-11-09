@@ -1,0 +1,26 @@
+﻿{
+  "id": "latticeCompass",
+  "name": "Lattice Compass",
+  "rarity": "uncommon",
+  "summary": "A compass with interlocking needles mapping vector fields.",
+  "positive": "Charts an immediate hint and cools momentum as you realign.",
+  "negative": "The intricate lattice taxes the mind with geometric strain.",
+  "neutral": "Tiny gears slide into place to display impossible angles.",
+  "effects": [
+    {
+      "type": "hint",
+      "message": "Lines of force converge, outlining the optimal path."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 5,
+      "message": "Needles spin until the chamber finds a milder flow."
+    },
+    {
+      "type": "sanity",
+      "amount": -3,
+      "message": "The compass's impossible geometry presses against your temples."
+    }
+  ]
+}

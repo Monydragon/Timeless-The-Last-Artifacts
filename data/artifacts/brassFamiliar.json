@@ -1,0 +1,10 @@
+﻿{
+  "id": "brassFamiliar",
+  "name": "Brass Familiar",
+  "rarity": "common",
+  "summary": "A mechanical sparrow that offers help while siphoning stored calm.",
+  "positive": "Restores a portion of sanity and provides a hint for intricate puzzles.",
+  "negative": "Siphons ambient calm to power its tiny gears.",
+  "neutral": "Its ticking harmonizes with the hourglass pulse.",
+  "applyScript": "(gameState, context) => {\n      adjustSanity(gameState, +8, \"The familiar chirps soothingly.\");\n      adjustTime(gameState, -20, \"The sparrow siphons the flux to power itself.\");\n      context.sceneState.flags.hintAvailable = true;\n    }"
+}

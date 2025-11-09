@@ -1,0 +1,31 @@
+﻿{
+  "id": "chronalPanoply",
+  "name": "Chronal Panoply",
+  "rarity": "rare",
+  "summary": "Layered plates of timeworn armor that absorb temporal shocks.",
+  "positive": "Shields you and trims the drain while it holds.",
+  "negative": "Weighty plating heats the surrounding sands.",
+  "neutral": "Its plates click gently like distant clock hands.",
+  "effects": [
+    {
+      "type": "shield",
+      "message": "Chronal plating unfurls, absorbing the next blow."
+    },
+    {
+      "type": "sanity",
+      "amount": 5,
+      "message": "The armor's weight grounds your racing thoughts."
+    },
+    {
+      "type": "drain",
+      "amount": -0.15,
+      "message": "You march forward with measured certainty."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 5,
+      "message": "The plating's mass displaces sand in a wide arc."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+﻿{
+  "id": "cognitionBell",
+  "name": "Cognition Bell",
+  "rarity": "rare",
+  "summary": "A handbell whose tone sharpens perception at a high cost.",
+  "positive": "Rings out a precise hint and highlights every hidden seam.",
+  "negative": "The piercing note bites deep into your sanity.",
+  "neutral": "Its tone never fully stops echoing.",
+  "effects": [
+    {
+      "type": "hint",
+      "message": "Resonant overtones sketch the cleanest approach."
+    },
+    {
+      "type": "scanAssist",
+      "message": "Struck harmonics light up concealed anchors.",
+      "tone": "positive"
+    },
+    {
+      "type": "sanity",
+      "amount": -6,
+      "message": "The bell's sting rattles through your skull."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 4,
+      "message": "Shockwaves herd the sands into a tidy orbit."
+    }
+  ]
+}

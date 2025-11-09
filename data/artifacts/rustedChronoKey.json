@@ -1,0 +1,26 @@
+﻿{
+  "id": "rustedChronoKey",
+  "name": "Rusted Chrono Key",
+  "rarity": "common",
+  "summary": "A corroded winding key that can brace stuck mechanisms for a moment.",
+  "positive": "Spits out a pragmatic hint for mechanical puzzles.",
+  "negative": "Winding it jolts the chamber, stirring the sands into a quick surge.",
+  "neutral": "Rust flakes drift upward as if the key remembers other gravity.",
+  "effects": [
+    {
+      "type": "hint",
+      "message": "Blueprint schematics sketch themselves across your thoughts."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 4,
+      "message": "The jammed gears kick the hourglass into a jitter."
+    },
+    {
+      "type": "sanity",
+      "amount": -2,
+      "message": "Metal grit scrapes across your knuckles."
+    }
+  ]
+}

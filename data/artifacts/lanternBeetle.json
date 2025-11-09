@@ -1,0 +1,44 @@
+﻿{
+  "id": "lanternBeetle",
+  "name": "Lantern Beetle",
+  "rarity": "common",
+  "summary": "A palm-sized beetle whose thorax glows with clocklight.",
+  "positive": "Highlights hidden relic traces during searches.",
+  "negative": "Its bright trail attracts curious sands, warming the flow.",
+  "neutral": "It blinks in a rhythm matching your heartbeat.",
+  "effects": [
+    {
+      "type": "scanAssist",
+      "message": "The beetle's light maps subtle seams across the chamber.",
+      "tone": "positive"
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 2,
+      "message": "Glittering motes swarm toward the beetle's glow."
+    },
+    {
+      "type": "combo",
+      "requires": [
+        "resonantChalk"
+      ],
+      "message": "Lantern Beetle and Resonant Chalk weave a lattice of guidance.",
+      "effects": [
+        {
+          "type": "momentum",
+          "direction": "cool",
+          "amount": 4,
+          "message": "Stabilizing lines freeze the swirling sand."
+        },
+        {
+          "type": "scanAssist",
+          "message": "Illuminated chalkwork auto-highlights dormant relic fonts.",
+          "tone": "positive"
+        }
+      ],
+      "elseMessage": "Chalk markings would let the beetle chart a steadier course.",
+      "elseTone": "neutral"
+    }
+  ]
+}

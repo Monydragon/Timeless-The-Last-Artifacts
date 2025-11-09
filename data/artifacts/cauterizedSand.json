@@ -1,0 +1,10 @@
+﻿{
+  "id": "cauterizedSand",
+  "name": "Cauterized Sand",
+  "rarity": "common",
+  "summary": "A fistful of glowing grains that can seal fractures or burn your resolve.",
+  "positive": "Bolsters your sanity and shields against the next sanity loss.",
+  "negative": "The scorching touch accelerates future sanity decay.",
+  "neutral": null,
+  "applyScript": "(gameState, context) => {\n      adjustSanity(gameState, +6, \"The heated sand sears closed your fear.\");\n      gameState.drainRate = Math.min(3.5, gameState.drainRate + 0.15);\n      context.sceneState.flags.sandWard = true;\n      addLog(\"A lingering warmth coils around you; one shock may be absorbed.\", \"positive\");\n    }"
+}

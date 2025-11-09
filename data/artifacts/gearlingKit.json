@@ -1,0 +1,22 @@
+﻿{
+  "id": "gearlingKit",
+  "name": "Gearling Kit",
+  "rarity": "common",
+  "summary": "A tin of tiny clockwork assistants eager to help.",
+  "positive": "Cools momentum as the gearlings tidy the floor.",
+  "negative": "Their chatter distracts you, shaving off sanity.",
+  "neutral": "They salute and scramble to obey each gesture.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 4,
+      "message": "Clockwork hands sweep away unstable dunes."
+    },
+    {
+      "type": "sanity",
+      "amount": -2,
+      "message": "The gearlings' overlapping voices grow a bit much."
+    }
+  ]
+}

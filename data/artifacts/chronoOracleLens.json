@@ -1,0 +1,29 @@
+﻿{
+  "id": "chronoOracleLens",
+  "name": "Chrono Oracle Lens",
+  "rarity": "legendary",
+  "summary": "An oracle lens that glimpses multiple outcomes at once.",
+  "positive": "Combines hint, search insight, and a puzzle auto-solution.",
+  "negative": "The cascading visions batter your sanity.",
+  "neutral": "Reflections branch into countless possibilities.",
+  "effects": [
+    {
+      "type": "hint",
+      "message": "Possible outcomes collapse into a single clear directive."
+    },
+    {
+      "type": "scanAssist",
+      "message": "Refractions highlight every hidden resonant point.",
+      "tone": "positive"
+    },
+    {
+      "type": "autoSolve",
+      "message": "The lens shows the exact motions before you execute them."
+    },
+    {
+      "type": "sanity",
+      "amount": -7,
+      "message": "The torrent of futures leaves your thoughts raw."
+    }
+  ]
+}

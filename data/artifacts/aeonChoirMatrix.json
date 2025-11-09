@@ -1,0 +1,30 @@
+﻿{
+  "id": "aeonChoirMatrix",
+  "name": "Aeon Choir Matrix",
+  "rarity": "legendary",
+  "summary": "A crystalline matrix that harmonizes your thoughts with the hourglass.",
+  "positive": "Provides enduring search insight, a hint, and a surge of sanity.",
+  "negative": "The choir's chord raises the drain slightly afterward.",
+  "neutral": "Voices echo from inside the crystal even when silenced.",
+  "effects": [
+    {
+      "type": "scanAssist",
+      "message": "Choir harmonics trace every hidden seam.",
+      "tone": "positive"
+    },
+    {
+      "type": "hint",
+      "message": "A chorus chants the exact sequence you require."
+    },
+    {
+      "type": "sanity",
+      "amount": 8,
+      "message": "The harmonies strengthen your resolve."
+    },
+    {
+      "type": "drain",
+      "amount": 0.2,
+      "message": "Residual reverberations keep your pulse elevated."
+    }
+  ]
+}

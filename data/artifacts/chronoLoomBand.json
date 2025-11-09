@@ -1,0 +1,40 @@
+﻿{
+  "id": "chronoLoomBand",
+  "name": "Chrono Loom Band",
+  "rarity": "uncommon",
+  "summary": "A loop of woven time fiber that tightens around stray impulses.",
+  "positive": "Depresses the sanity drain for as long as the band holds.",
+  "negative": "Snaps back with stored energy, heating the hourglass.",
+  "neutral": "It faintly ticks in triple time while it works.",
+  "effects": [
+    {
+      "type": "drain",
+      "amount": -0.25,
+      "message": "The band cinches distractions into a disciplined rhythm."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 5,
+      "message": "When it releases, a surge ripples through the sand."
+    },
+    {
+      "type": "combo",
+      "requires": [
+        "brassLoomSpool"
+      ],
+      "message": "Chrono Loom Band and Brass Loom Spool braid reinforcements across the chamber.",
+      "effects": [
+        {
+          "type": "drain",
+          "amount": -0.15,
+          "message": "Interlaced threads relieve the flux burden."
+        },
+        {
+          "type": "shield",
+          "message": "Woven cords brace you against the next backlash."
+        }
+      ]
+    }
+  ]
+}

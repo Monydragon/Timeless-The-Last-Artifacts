@@ -1,0 +1,26 @@
+﻿{
+  "id": "windupMender",
+  "name": "Windup Mender",
+  "rarity": "common",
+  "summary": "A pocket kit of gears and tea steam that soothes frayed nerves.",
+  "positive": "Restores sanity and primes a sand ward.",
+  "negative": "The frantic winding agitates the surrounding sands.",
+  "neutral": "It hums a lullaby from forgotten workshops when wound.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 8,
+      "message": "Warm clockwork steam laps at your senses."
+    },
+    {
+      "type": "shield",
+      "message": "A sleeve of coiled springs braces you against the next shock."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 3,
+      "message": "Spare cogs scatter, rattling the temporal drift."
+    }
+  ]
+}

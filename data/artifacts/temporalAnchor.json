@@ -1,0 +1,10 @@
+﻿{
+  "id": "temporalAnchor",
+  "name": "Temporal Anchor",
+  "rarity": "rare",
+  "summary": "Stabilizes the slipping present without exacting a toll.",
+  "positive": "Significantly slows sanity decay for the remainder of the run.",
+  "negative": null,
+  "neutral": "You feel the ground stop swaying for a precious moment.",
+  "applyScript": "(gameState) => {\n      gameState.drainRate = Math.max(0.35, gameState.drainRate - 0.6);\n      addLog(\"The anchor steadies your thoughts; sanity ebbs more slowly.\", \"positive\");\n    }"
+}

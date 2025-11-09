@@ -1,0 +1,25 @@
+﻿{
+  "id": "twilightPeriscope",
+  "name": "Twilight Periscope",
+  "rarity": "uncommon",
+  "summary": "A periscope that peers through dim layers of adjacent time.",
+  "positive": "Highlights hidden relic traces and whispers a tactical hint.",
+  "negative": "Straining to focus costs a measure of sanity.",
+  "neutral": "At each glance twilight colors bleed into the chamber.",
+  "effects": [
+    {
+      "type": "scanAssist",
+      "message": "The periscope paints weak glows wherever relics hide.",
+      "tone": "positive"
+    },
+    {
+      "type": "hint",
+      "message": "Faint silhouettes trace the safest approach."
+    },
+    {
+      "type": "sanity",
+      "amount": -4,
+      "message": "Peering too long leaves you dizzy and hollow."
+    }
+  ]
+}

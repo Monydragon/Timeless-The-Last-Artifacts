@@ -1,0 +1,44 @@
+﻿{
+  "id": "steamDraught",
+  "name": "Steam Draught",
+  "rarity": "common",
+  "summary": "A vial of spiced steam collected from engine vents.",
+  "positive": "Restores warmth and knocks a bit of momentum loose.",
+  "negative": "Leaves you jittery, hastening the drain that follows.",
+  "neutral": "The vapor curls into tiny gear shapes as it escapes.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 5,
+      "message": "Heat blooms through your chest, chasing away the chill."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 3,
+      "message": "Exhaled steam slows the swirling sands."
+    },
+    {
+      "type": "drain",
+      "amount": 0.2,
+      "message": "Your pulse races, burning through composure faster."
+    },
+    {
+      "type": "combo",
+      "requires": [
+        "clockdustSachet"
+      ],
+      "message": "Steam Draught fuses with clockdust, forming soothing vapor curtains.",
+      "effects": [
+        {
+          "type": "settle",
+          "state": "calm",
+          "ticks": 3,
+          "message": "The chamber hushes beneath a velveteen fog.",
+          "tone": "neutral"
+        }
+      ],
+      "elseMessage": "Dust-laden air would make the draught much steadier."
+    }
+  ]
+}

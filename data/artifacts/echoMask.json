@@ -1,0 +1,29 @@
+﻿{
+  "id": "echoMask",
+  "name": "Echo Mask",
+  "rarity": "uncommon",
+  "summary": "A mask that steals stray voices and feeds them back as guidance.",
+  "positive": "Guides searches with uncanny precision.",
+  "negative": "Borrowed voices nibble at your own sense of self.",
+  "neutral": "The mask's mouth opens and closes without sound.",
+  "effects": [
+    {
+      "type": "sceneFlag",
+      "key": "searchAssist",
+      "value": true,
+      "message": "Captured whispers point toward hidden hollows.",
+      "tone": "positive"
+    },
+    {
+      "type": "sanity",
+      "amount": -5,
+      "message": "Your voice returns a shade thinner."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 2,
+      "message": "Trapped echoes rattle inside the mask."
+    }
+  ]
+}

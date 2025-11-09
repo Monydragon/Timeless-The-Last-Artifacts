@@ -1,0 +1,27 @@
+﻿{
+  "id": "temporalLoomframe",
+  "name": "Temporal Loomframe",
+  "rarity": "rare",
+  "summary": "A portable loomframe that can weave supportive timelines.",
+  "positive": "Grants lasting search insight and softens the drain.",
+  "negative": "Weaving alternate threads excites the ambient flow.",
+  "neutral": "Threads shimmer with afterimages of paths not taken.",
+  "effects": [
+    {
+      "type": "scanAssist",
+      "message": "Parallel threads reveal where relics are likely to fall.",
+      "tone": "positive"
+    },
+    {
+      "type": "drain",
+      "amount": -0.2,
+      "message": "Woven support eases the strain on your nerves."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 4,
+      "message": "Alternate strands tug at the present, quickening the sands."
+    }
+  ]
+}

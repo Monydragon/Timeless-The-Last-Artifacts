@@ -1,0 +1,28 @@
+﻿{
+  "id": "smokedSundial",
+  "name": "Smoked Sundial",
+  "rarity": "common",
+  "summary": "A smoked glass sundial gauged for the diffuse light inside the hourglass.",
+  "positive": "Tempers the drain as you chart a steadier tempo.",
+  "negative": "Fixating on the dim light saps a bit of resolve.",
+  "neutral": "Faint rays crawl across the dial like angled constellations.",
+  "effects": [
+    {
+      "type": "drain",
+      "amount": -0.2,
+      "message": "A measured cadence replaces frantic breaths."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 2,
+      "message": "The sundial rests on the sand, inviting a brief stillness.",
+      "tone": "neutral"
+    },
+    {
+      "type": "sanity",
+      "amount": -2,
+      "message": "Staring into the dim glow leaves specks dancing in your vision."
+    }
+  ]
+}

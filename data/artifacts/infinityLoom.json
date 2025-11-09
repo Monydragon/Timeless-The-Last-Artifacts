@@ -1,0 +1,29 @@
+﻿{
+  "id": "infinityLoom",
+  "name": "Infinity Loom",
+  "rarity": "timeless",
+  "summary": "A loom that weaves threads across endless variations of the run.",
+  "positive": "Severely reduces drain and grants a decisive calm pocket.",
+  "negative": "Working the loom stirs an undercurrent of momentum.",
+  "neutral": "Threads stretch beyond sight before snapping back.",
+  "effects": [
+    {
+      "type": "drain",
+      "amount": -0.6,
+      "message": "You stitch countless outcomes into a single, manageable pace."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 6,
+      "message": "Woven threads cradle the chamber in stillness.",
+      "tone": "neutral"
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 8,
+      "message": "Residual threads lash outward once the loom stills."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+﻿{
+  "id": "paradoxPrism",
+  "name": "Paradox Prism",
+  "rarity": "uncommon",
+  "summary": "Splits flux-lines, gifting you calm while rending your composure.",
+  "positive": "Extends the calm with borrowed echoes.",
+  "negative": "Each reflection scrapes at your sanity.",
+  "neutral": null,
+  "applyScript": "(gameState) => {\n      adjustTime(gameState, +30, \"Flux branches outward in shimmering arcs.\");\n      adjustSanity(gameState, -5, \"Your thoughts echo uncomfortably.\");\n    }"
+}

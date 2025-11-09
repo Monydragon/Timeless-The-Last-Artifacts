@@ -1,0 +1,29 @@
+﻿{
+  "id": "phaseAnchorShard",
+  "name": "Phase Anchor Shard",
+  "rarity": "rare",
+  "summary": "A shard chipped from a massive phase anchor.",
+  "positive": "Slams a surging flow to a halt.",
+  "negative": "The shard hums dangerously, raising future drain.",
+  "neutral": "Frost and sparks cling to its edges simultaneously.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 12,
+      "message": "The shard locks the chamber in place."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 4,
+      "message": "A resonant thud ripples outward.",
+      "tone": "neutral"
+    },
+    {
+      "type": "drain",
+      "amount": 0.15,
+      "message": "Residual vibrations thrash against your pulse."
+    }
+  ]
+}

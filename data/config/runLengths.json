@@ -1,0 +1,26 @@
+{
+  "very-short": {
+    "label": "Very Short",
+    "rooms": 3
+  },
+  "short": {
+    "label": "Short",
+    "rooms": 5
+  },
+  "normal": {
+    "label": "Normal",
+    "rooms": 10
+  },
+  "long": {
+    "label": "Long",
+    "rooms": 20
+  },
+  "very-long": {
+    "label": "Very Long",
+    "rooms": 50
+  },
+  "timeless": {
+    "label": "Timeless",
+    "rooms": null
+  }
+}

@@ -1,0 +1,27 @@
+﻿{
+  "id": "gildedCompass",
+  "name": "Gilded Compass",
+  "rarity": "common",
+  "summary": "A brass compass that locks onto micro currents within the hourglass.",
+  "positive": "Restores composure and pulls stray sands into orderly routes.",
+  "negative": "Its whining needle erodes your focus, nudging sanity drain upward.",
+  "neutral": "Copper filings orbit in lazy spirals around the casing.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 6,
+      "message": "Breathing steadies as the compass clicks into a true bearing."
+    },
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 6,
+      "message": "Stray sands collapse into a disciplined ring."
+    },
+    {
+      "type": "drain",
+      "amount": 0.1,
+      "message": "The needle's whine gnaws at your concentration."
+    }
+  ]
+}

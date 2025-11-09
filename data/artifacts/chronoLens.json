@@ -1,0 +1,10 @@
+﻿{
+  "id": "chronoLens",
+  "name": "Chrono Lens",
+  "rarity": "uncommon",
+  "summary": "Reveals phase-bloomed passages while taxing your focus.",
+  "positive": "Highlights hidden mechanisms in the current chamber.",
+  "negative": "The heightened perception drags at your composure, raising drain.",
+  "neutral": "You glimpse flickers of alternate flows overlapping the room.",
+  "applyScript": "(gameState, context) => {\n      context.sceneState.flags.revealedPaths = true;\n      gameState.drainRate = Math.min(3.5, gameState.drainRate + 0.25);\n      addLog(\n        `${context.artifact.name} reveals phase-bloomed passageways within ${context.scene.name}.`,\n        \"positive\"\n      );\n      addLog(\"The clarity is dizzying; the flux claws at your attention.\", \"negative\");\n    }"
+}

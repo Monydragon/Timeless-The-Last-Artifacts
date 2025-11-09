@@ -1,0 +1,34 @@
+﻿{
+  "id": "timestepChalice",
+  "name": "Timestep Chalice",
+  "rarity": "rare",
+  "summary": "A chalice that condenses errant grains into drinkable focus.",
+  "positive": "Greatly restores sanity and lowers the drain while calming the chamber.",
+  "negative": "Each sip leaves a faint aftertaste of lost speed.",
+  "neutral": "Liquid sand swirls lazily inside the cup.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 12,
+      "message": "Cool quartz liquid steadies every nerve."
+    },
+    {
+      "type": "drain",
+      "amount": -0.3,
+      "message": "Your heartbeat syncs with a slower tempo."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 4,
+      "message": "A ring of frost forms on the chalice rim.",
+      "tone": "neutral"
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 3,
+      "message": "Once the calm fades, eager grains rush back in."
+    }
+  ]
+}

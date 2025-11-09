@@ -1,0 +1,28 @@
+﻿{
+  "id": "continuumFlute",
+  "name": "Continuum Flute",
+  "rarity": "rare",
+  "summary": "A flute that slides through the continuum with each breath.",
+  "positive": "Yields a burst of sanity and a protective ward.",
+  "negative": "The melody invites a fierce but predictable surge.",
+  "neutral": "Each note leaves a ribbon of light spiraling upward.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 8,
+      "message": "The flute's song quiets anxious echoes."
+    },
+    {
+      "type": "shield",
+      "message": "A resonant chord coats you in shielding harmonics."
+    },
+    {
+      "type": "event",
+      "state": "surge",
+      "ticks": 5,
+      "bump": 6,
+      "message": "The continuum answers with a roaring crescendo.",
+      "tone": "negative"
+    }
+  ]
+}

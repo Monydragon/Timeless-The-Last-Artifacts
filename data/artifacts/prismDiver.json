@@ -1,0 +1,29 @@
+﻿{
+  "id": "prismDiver",
+  "name": "Prism Diver",
+  "rarity": "uncommon",
+  "summary": "A refractive probe that dives into splintered timelines and drags them together.",
+  "positive": "Bleeds a heavy swell of momentum into a steady prismatic hum.",
+  "negative": "The dive scrapes at your memories, leaving a fresh scar.",
+  "neutral": "When activated it refracts the chamber into six offset copies.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 10,
+      "message": "The diver burrows through turbulence and seals it behind mirrored light."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 3,
+      "message": "Prismatic echoes pulse until the chamber exhales.",
+      "tone": "neutral"
+    },
+    {
+      "type": "sanity",
+      "amount": -6,
+      "message": "Fragments of a timeline you never lived linger painfully."
+    }
+  ]
+}

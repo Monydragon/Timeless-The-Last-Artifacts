@@ -1,0 +1,27 @@
+﻿{
+  "id": "pulseEngineCore",
+  "name": "Pulse Engine Core",
+  "rarity": "rare",
+  "summary": "A shuddering engine core salvaged from a time skiff.",
+  "positive": "Slashes the drain while it spins, venting pressure outward.",
+  "negative": "The core radiates instability, heating momentum and bruising sanity.",
+  "neutral": "It pulses in sync with the hourglass heartbeat.",
+  "effects": [
+    {
+      "type": "drain",
+      "amount": -0.3,
+      "message": "A rhythmic thrum steadies your breathing."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 6,
+      "message": "Energy ripples outward from the spinning core."
+    },
+    {
+      "type": "sanity",
+      "amount": -4,
+      "message": "The vibration bruises your ribs from within."
+    }
+  ]
+}

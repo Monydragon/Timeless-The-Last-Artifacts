@@ -1,0 +1,29 @@
+﻿{
+  "id": "serenadeHorn",
+  "name": "Serenade Horn",
+  "rarity": "uncommon",
+  "summary": "A brass horn tuned to lull spiraling sands.",
+  "positive": "Pours warmth into your sanity and invites a soft lull.",
+  "negative": "The resonant blast stirs a later resurgence.",
+  "neutral": "Polished valves gleam like captured sunsets.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 10,
+      "message": "The horn's song cushions every sharp thought."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 3,
+      "message": "Echoes hang like velvet in the air.",
+      "tone": "neutral"
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 4,
+      "message": "Afterglow ripples outward, priming a future rise."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+﻿{
+  "id": "sandScribe",
+  "name": "Sand Scribe",
+  "rarity": "uncommon",
+  "summary": "A stylus that engraves instructions directly into falling sand.",
+  "positive": "Reveals hidden pathways and grants a precise hint.",
+  "negative": "Each etched line accelerates the grains around you.",
+  "neutral": "Glyphs hang in the air before collapsing into readable steps.",
+  "effects": [
+    {
+      "type": "sceneFlag",
+      "key": "revealedPaths",
+      "value": true,
+      "message": "Glyphs flare across the walls, revealing latent routes.",
+      "tone": "positive"
+    },
+    {
+      "type": "hint",
+      "message": "The stylus sketches the most efficient alignment."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 4,
+      "message": "Sand surges to refill the lines you carved."
+    }
+  ]
+}

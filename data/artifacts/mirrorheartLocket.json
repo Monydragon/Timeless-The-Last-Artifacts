@@ -1,0 +1,26 @@
+﻿{
+  "id": "mirrorheartLocket",
+  "name": "Mirrorheart Locket",
+  "rarity": "rare",
+  "summary": "A locket containing a mirror shard that reflects possible futures.",
+  "positive": "Restores sanity and provides a targeted hint when needed.",
+  "negative": "Dwelling on reflections heats the sands.",
+  "neutral": "Each opening reveals a different version of you.",
+  "effects": [
+    {
+      "type": "sanity",
+      "amount": 10,
+      "message": "You see a calmer self and borrow their poise."
+    },
+    {
+      "type": "hint",
+      "message": "Reflected futures point toward the surest choice."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 5,
+      "message": "Futures resonate, agitating the present flow."
+    }
+  ]
+}

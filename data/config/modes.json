@@ -1,0 +1,97 @@
+{
+  "casual": {
+    "label": "Casual",
+    "description": "Flux is gentle and discovery is generous.",
+    "settings": {
+      "startingSanity": 140,
+      "baseDrain": 0.5,
+      "momentumCap": 150,
+      "surgeMultiplier": 0.75,
+      "rarityBias": {
+        "rare": 1.6,
+        "legendary": 2.0,
+        "timeless": 1.7
+      },
+      "discoveryBoost": 1.45,
+      "comboIntensity": 1.3,
+      "gachaBonus": 1.6,
+      "puzzleSkew": 0.8
+    }
+  },
+  "easy": {
+    "label": "Easy",
+    "description": "Measured flux, accessible relic cadence.",
+    "settings": {
+      "startingSanity": 120,
+      "baseDrain": 0.85,
+      "momentumCap": 125,
+      "surgeMultiplier": 0.95,
+      "rarityBias": {
+        "rare": 1.35,
+        "legendary": 1.7,
+        "timeless": 1.45
+      },
+      "discoveryBoost": 1.25,
+      "comboIntensity": 1.1,
+      "gachaBonus": 1.35,
+      "puzzleSkew": 0.95
+    }
+  },
+  "normal": {
+    "label": "Normal",
+    "description": "The standard hourglass experience.",
+    "settings": {
+      "startingSanity": 100,
+      "baseDrain": 1.05,
+      "momentumCap": 100,
+      "surgeMultiplier": 1.05,
+      "rarityBias": {
+        "rare": 1.1,
+        "legendary": 1.35,
+        "timeless": 1.2
+      },
+      "discoveryBoost": 1.0,
+      "comboIntensity": 1.0,
+      "gachaBonus": 1.0,
+      "puzzleSkew": 1.0
+    }
+  },
+  "hard": {
+    "label": "Hard",
+    "description": "Flux surges strike harder; stability is fleeting.",
+    "settings": {
+      "startingSanity": 80,
+      "baseDrain": 1.55,
+      "momentumCap": 85,
+      "surgeMultiplier": 1.4,
+      "rarityBias": {
+        "rare": 0.95,
+        "legendary": 1.15,
+        "timeless": 1.05
+      },
+      "discoveryBoost": 0.85,
+      "comboIntensity": 0.9,
+      "gachaBonus": 0.9,
+      "puzzleSkew": 1.25
+    }
+  },
+  "timeless": {
+    "label": "Timeless",
+    "description": "Relentless chaos, perilous drains, exceptional rewards.",
+    "settings": {
+      "startingSanity": 65,
+      "baseDrain": 1.95,
+      "momentumCap": 70,
+      "surgeMultiplier": 1.85,
+      "rarityBias": {
+        "rare": 1.8,
+        "legendary": 2.4,
+        "timeless": 2.2
+      },
+      "discoveryBoost": 1.6,
+      "comboIntensity": 1.45,
+      "gachaBonus": 1.9,
+      "puzzleSkew": 1.5
+    }
+  }
+}

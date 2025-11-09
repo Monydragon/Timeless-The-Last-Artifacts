@@ -1,0 +1,10 @@
+﻿{
+  "id": "hourwardenSigil",
+  "name": "Hourwarden Sigil",
+  "rarity": "rare",
+  "summary": "A keeper's emblem that commands the sands without backlash.",
+  "positive": "Unlocks a guaranteed escape route from one chamber.",
+  "negative": null,
+  "neutral": "The sigil vibrates with an ancient vow.",
+  "applyScript": "(gameState) => {\n      gameState.flags.freeEscape = true;\n      addLog(\"The sigil hums--one barrier this run will yield without question.\", \"positive\");\n    }"
+}

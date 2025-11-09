@@ -10,82 +10,122 @@
   <div id="title-screen" class="screen">
     <div class="title-card">
       <div class="title-logo">
-        <span class="title-icon">⧗</span>
+        <span class="title-icon">&#x23F3;</span>
         <h1>Timeless: The Last Artifacts</h1>
       </div>
       <p class="title-tagline">Stabilize the hourglass, weave the relics, outlast the flux.</p>
-      <section class="title-section">
-        <h2>Select Mode</h2>
-        <div id="mode-options" role="radiogroup" aria-label="Difficulty modes">
-          <label class="mode-option">
-            <input type="radio" name="mode" value="casual" checked />
-            <span class="mode-name">Casual</span>
-            <span class="mode-desc">Forgiving flux, generous relic flow.</span>
-          </label>
-          <label class="mode-option">
-            <input type="radio" name="mode" value="easy" />
-            <span class="mode-name">Easy</span>
-            <span class="mode-desc">Steady calm with gentle surges.</span>
-          </label>
-          <label class="mode-option">
-            <input type="radio" name="mode" value="normal" />
-            <span class="mode-name">Normal</span>
-            <span class="mode-desc">Baseline flux and relic cadence.</span>
-          </label>
-          <label class="mode-option">
-            <input type="radio" name="mode" value="hard" />
-            <span class="mode-name">Hard</span>
-            <span class="mode-desc">Relentless surges and fragile calm.</span>
-          </label>
-          <label class="mode-option">
-            <input type="radio" name="mode" value="timeless" />
-            <span class="mode-name">Timeless</span>
-            <span class="mode-desc">Experimental flux storms and rare relic cascades.</span>
-          </label>
-        </div>
+      <section id="title-flow" class="title-flow">
+        <article class="title-step active" data-step="0">
+          <h2>Choose Your Party</h2>
+          <div id="party-options" role="radiogroup" aria-label="Party mode">
+            <label class="mode-option party-option">
+              <input type="radio" name="party-mode" value="solo" checked />
+              <span class="mode-name">Solo</span>
+              <span class="mode-desc">Journey alone with your chosen codename.</span>
+            </label>
+            <label class="mode-option party-option">
+              <input type="radio" name="party-mode" value="multi" />
+              <span class="mode-name">Multiplayer</span>
+              <span class="mode-desc">Coordinate up to four timewalkers.</span>
+            </label>
+          </div>
+          <div id="solo-name-area" class="party-join-form">
+            <label class="sr-only" for="solo-name-input">Codename</label>
+            <input
+              type="text"
+              id="solo-name-input"
+              maxlength="24"
+              placeholder="Set your codename"
+              autocomplete="off"
+            />
+            <button id="solo-name-btn" class="ghost" type="button">Save Codename</button>
+          </div>
+          <div id="party-summary">
+            <button id="open-lobby-btn" class="ghost hidden" type="button">Manage Lobby</button>
+            <div id="party-roster" class="party-roster">
+              <span class="party-empty">Codename pending...</span>
+            </div>
+          </div>
+        </article>
+        <article class="title-step" data-step="1">
+          <h2>Select Difficulty</h2>
+          <div id="mode-options" role="radiogroup" aria-label="Difficulty modes">
+            <label class="mode-option">
+              <input type="radio" name="mode" value="casual" checked />
+              <span class="mode-name">Casual</span>
+              <span class="mode-desc">Forgiving flux, generous relic flow.</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="mode" value="easy" />
+              <span class="mode-name">Easy</span>
+              <span class="mode-desc">Steady calm with gentle surges.</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="mode" value="normal" />
+              <span class="mode-name">Normal</span>
+              <span class="mode-desc">Baseline flux and relic cadence.</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="mode" value="hard" />
+              <span class="mode-name">Hard</span>
+              <span class="mode-desc">Relentless surges and fragile calm.</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="mode" value="timeless" />
+              <span class="mode-name">Timeless</span>
+              <span class="mode-desc">Experimental flux storms and rare relic cascades.</span>
+            </label>
+          </div>
+        </article>
+        <article class="title-step" data-step="2">
+          <h2>Choose Run Length</h2>
+          <div id="length-options" role="radiogroup" aria-label="Run length">
+            <label class="mode-option length-option">
+              <input type="radio" name="length" value="very-short" checked />
+              <span class="mode-name">Very Short</span>
+              <span class="mode-desc">3 chambers, quick primer run.</span>
+            </label>
+            <label class="mode-option length-option">
+              <input type="radio" name="length" value="short" />
+              <span class="mode-name">Short</span>
+              <span class="mode-desc">5 chambers, brisk escape.</span>
+            </label>
+            <label class="mode-option length-option">
+              <input type="radio" name="length" value="normal" />
+              <span class="mode-name">Normal</span>
+              <span class="mode-desc">10 chambers, standard expedition.</span>
+            </label>
+            <label class="mode-option length-option">
+              <input type="radio" name="length" value="long" />
+              <span class="mode-name">Long</span>
+              <span class="mode-desc">20 chambers, extended delve.</span>
+            </label>
+            <label class="mode-option length-option">
+              <input type="radio" name="length" value="very-long" />
+              <span class="mode-name">Very Long</span>
+              <span class="mode-desc">50 chambers, marathon run.</span>
+            </label>
+            <label class="mode-option length-option">
+              <input type="radio" name="length" value="timeless" />
+              <span class="mode-name">Timeless</span>
+              <span class="mode-desc">Endless descent, flux without limit.</span>
+            </label>
+          </div>
+        </article>
       </section>
-      <section class="title-section">
-        <h2>Choose Run Length</h2>
-        <div id="length-options" role="radiogroup" aria-label="Run length">
-          <label class="mode-option length-option">
-            <input type="radio" name="length" value="very-short" checked />
-            <span class="mode-name">Very Short</span>
-            <span class="mode-desc">3 chambers, quick primer run.</span>
-          </label>
-          <label class="mode-option length-option">
-            <input type="radio" name="length" value="short" />
-            <span class="mode-name">Short</span>
-            <span class="mode-desc">5 chambers, brisk escape.</span>
-          </label>
-          <label class="mode-option length-option">
-            <input type="radio" name="length" value="normal" />
-            <span class="mode-name">Normal</span>
-            <span class="mode-desc">10 chambers, standard expedition.</span>
-          </label>
-          <label class="mode-option length-option">
-            <input type="radio" name="length" value="long" />
-            <span class="mode-name">Long</span>
-            <span class="mode-desc">20 chambers, extended delve.</span>
-          </label>
-          <label class="mode-option length-option">
-            <input type="radio" name="length" value="very-long" />
-            <span class="mode-name">Very Long</span>
-            <span class="mode-desc">50 chambers, marathon run.</span>
-          </label>
-          <label class="mode-option length-option">
-            <input type="radio" name="length" value="timeless" />
-            <span class="mode-name">Timeless</span>
-            <span class="mode-desc">Endless descent, flux without limit.</span>
-          </label>
+      <section class="title-actions">
+        <div class="title-wizard">
+          <button id="title-prev" class="ghost" type="button">Back</button>
+          <span id="title-progress">Step 1 of 3</span>
+          <button id="title-next" class="primary" type="button">Next</button>
         </div>
-      </section>
-      <section class="title-section title-actions">
-        <button id="start-btn" class="primary">Enter the Hourglass</button>
-        <button id="tutorial-btn" class="ghost">How to Play</button>
-        <button id="options-btn" class="ghost">Options</button>
+        <div class="title-secondary">
+          <button id="tutorial-btn" class="ghost" type="button">How to Play</button>
+          <button id="options-btn" class="ghost" type="button">Options</button>
+        </div>
       </section>
       <footer class="title-footer">
-        <span id="title-build">Build v0.3.0</span>
+        <span id="title-build">Build v0.5.0</span>
         <span class="title-note">Audio, accessibility, and relic codex available via Options.</span>
       </footer>
     </div>
@@ -107,9 +147,25 @@
           <span id="flux-state">Frozen</span>
         </div>
       </div>
+      <div class="hud-section">
+        <div class="label">Progress</div>
+        <div id="progress-tracker">
+          <div id="progress-bar">
+            <div id="progress-fill"></div>
+          </div>
+          <span id="progress-text">0 / 0</span>
+        </div>
+      </div>
+      <div class="hud-section">
+        <div class="label">Team</div>
+        <div id="hud-team">Solo</div>
+      </div>
       <div class="hud-section hud-version">
         <div class="label">Build</div>
-        <div id="game-version">v0.3.0</div>
+        <div id="game-version">v0.5.0</div>
+      </div>
+      <div class="hud-section observer-slot">
+        <div id="observer-banner" class="observer-banner">Observer Mode</div>
       </div>
       <div class="hud-section">
         <button id="audio-toggle" class="ghost" aria-pressed="false">Audio On</button>
@@ -146,6 +202,34 @@
       <section id="inventory">
         <h2>Artifacts</h2>
         <ul id="inventory-items"></ul>
+        <div class="gacha-controls">
+          <button id="gacha-roll-btn" class="ghost">Relic Gacha</button>
+          <span id="gacha-charges" class="label">Charges: 0</span>
+        </div>
+        <div id="artifact-detail" class="detail-card hidden">
+          <header class="detail-header">
+            <h3 id="artifact-detail-name">Select an artifact</h3>
+            <span id="artifact-detail-rarity" class="rarity-tag"></span>
+          </header>
+          <p id="artifact-detail-summary" class="detail-summary">
+            Inspect a relic to review its traits and combo synergies.
+          </p>
+          <dl id="artifact-detail-effects" class="detail-effects hidden">
+            <div>
+              <dt>Positive</dt>
+              <dd id="artifact-detail-positive">â€”</dd>
+            </div>
+            <div>
+              <dt>Neutral</dt>
+              <dd id="artifact-detail-neutral">â€”</dd>
+            </div>
+            <div>
+              <dt>Negative</dt>
+              <dd id="artifact-detail-negative">â€”</dd>
+            </div>
+          </dl>
+          <div id="artifact-detail-combos" class="detail-combos hidden"></div>
+        </div>
       </section>
 
       <section id="log-panel">
@@ -172,7 +256,7 @@
     <div class="tutorial-card">
       <header class="tutorial-header">
         <h2>Hourglass Briefing</h2>
-        <button id="tutorial-close" class="ghost" aria-label="Close tutorial">✕</button>
+        <button id="tutorial-close" class="ghost" aria-label="Close tutorial">&times;</button>
       </header>
       <div id="tutorial-body"></div>
       <footer class="tutorial-footer">
@@ -186,7 +270,7 @@
     <div class="options-card">
       <header class="options-header">
         <h2>Options</h2>
-        <button id="options-close" class="ghost" aria-label="Close options">✕</button>
+        <button id="options-close" class="ghost" aria-label="Close options">&times;</button>
       </header>
       <section class="options-section">
         <h3>Audio</h3>
@@ -213,7 +297,6 @@
       <section class="options-section">
         <h3>Codex</h3>
         <button id="open-codex" class="ghost">Open Relic Codex</button>
-        <button id="gacha-btn" class="ghost">Roll Relic (Gacha)</button>
       </section>
       <footer class="options-footer">
         <button id="options-save" class="primary">Save</button>
@@ -225,9 +308,38 @@
     <div class="codex-card">
       <header class="codex-header">
         <h2>Relic Codex</h2>
-        <button id="codex-close" class="ghost" aria-label="Close codex">✕</button>
+        <button id="codex-close" class="ghost" aria-label="Close codex">&times;</button>
       </header>
       <div id="codex-list"></div>
+    </div>
+  </div>
+
+  <div id="lobby-overlay" class="screen hidden" role="dialog" aria-modal="true">
+    <div class="lobby-card">
+      <header class="lobby-header">
+        <h2>Multiplayer Lobby</h2>
+        <button id="lobby-close" class="ghost" aria-label="Close lobby">&times;</button>
+      </header>
+      <section class="lobby-section">
+        <h3>Current Crew</h3>
+        <div id="lobby-list" class="lobby-list"></div>
+        <form id="lobby-form" class="lobby-form">
+          <input type="text" id="lobby-name-input" maxlength="24" placeholder="New player name" />
+          <button id="lobby-add-btn" class="ghost" type="submit">Add Player</button>
+        </form>
+        <p class="options-note">Invite up to four timewalkers. Launch the run from the title screen when ready.</p>
+      </section>
+      <section id="invite-section" class="lobby-section invite-section hidden">
+        <h3>Invite Link</h3>
+        <div class="invite-row">
+          <input id="invite-link-input" type="text" readonly value="Preparing session..." />
+          <button id="invite-copy-btn" class="ghost" type="button">Copy</button>
+        </div>
+        <p id="invite-status" class="options-note">Share this link with allies to join your hourglass.</p>
+      </section>
+      <footer class="lobby-footer">
+        <button id="lobby-done" class="primary" type="button">Ready</button>
+      </footer>
     </div>
   </div>
 

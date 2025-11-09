@@ -1,0 +1,27 @@
+﻿{
+  "id": "riftStitcher",
+  "name": "Rift Stitcher",
+  "rarity": "uncommon",
+  "summary": "A needle threaded with luminescent sand for sealing micro rifts.",
+  "positive": "Sews shut a large chunk of runaway momentum.",
+  "negative": "The work taxes you, increasing drain and shaving sanity.",
+  "neutral": "Stitched seams glow before blending back into glass.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 12,
+      "message": "You cinch the needle through each wild eddy until it quiets."
+    },
+    {
+      "type": "drain",
+      "amount": 0.25,
+      "message": "Fine motor focus leaves your hands trembling."
+    },
+    {
+      "type": "sanity",
+      "amount": -3,
+      "message": "A needle prick of lost time stings your thoughts."
+    }
+  ]
+}

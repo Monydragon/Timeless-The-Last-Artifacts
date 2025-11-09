@@ -1,0 +1,28 @@
+﻿{
+  "id": "emberGyroscope",
+  "name": "Ember Gyroscope",
+  "rarity": "uncommon",
+  "summary": "A warm gyroscope that spins out sparks of stabilized time.",
+  "positive": "Grants a protective ward while you keep it spinning.",
+  "negative": "Its ignition whips the chamber into a brief surge.",
+  "neutral": "Trails of ember light trace perfect circles in midair.",
+  "effects": [
+    {
+      "type": "shield",
+      "message": "Sparks form a halo, ready to deflect the next shock."
+    },
+    {
+      "type": "event",
+      "state": "surge",
+      "ticks": 3,
+      "bump": 4,
+      "message": "The gyroscope howls, stirring the sands into a roaring orbit.",
+      "tone": "negative"
+    },
+    {
+      "type": "sanity",
+      "amount": 4,
+      "message": "The steady spin anchors your breathing."
+    }
+  ]
+}

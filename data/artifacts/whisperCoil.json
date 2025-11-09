@@ -1,0 +1,20 @@
+﻿{
+  "id": "whisperCoil",
+  "name": "Whisper Coil",
+  "rarity": "common",
+  "summary": "A coil that murmurs the near future in barely audible tones.",
+  "positive": "Offers a pointed hint when you face intricate logic.",
+  "negative": "Each whisper plucks away a thread of memory.",
+  "neutral": "It rattles quietly whenever the hourglass tilts.",
+  "effects": [
+    {
+      "type": "hint",
+      "message": "The coil sketches a clean solution across the sand."
+    },
+    {
+      "type": "sanity",
+      "amount": -3,
+      "message": "The whispers claim a comforting recollection as payment."
+    }
+  ]
+}

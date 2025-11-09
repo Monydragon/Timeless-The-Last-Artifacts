@@ -1,0 +1,29 @@
+﻿{
+  "id": "aeonCapsule",
+  "name": "Aeon Capsule",
+  "rarity": "uncommon",
+  "summary": "A capsule filled with stabilized hourglass sand.",
+  "positive": "On release it devours a surge of momentum and ushers in calm.",
+  "negative": "The capsule hairline cracks add a lingering drain penalty.",
+  "neutral": "Condensed frost beads on the glass whenever danger nears.",
+  "effects": [
+    {
+      "type": "momentum",
+      "direction": "cool",
+      "amount": 9,
+      "message": "Stabilized sand floods outward, damping every swirl."
+    },
+    {
+      "type": "settle",
+      "state": "calm",
+      "ticks": 4,
+      "message": "A cool mist settles over the chamber.",
+      "tone": "neutral"
+    },
+    {
+      "type": "drain",
+      "amount": 0.2,
+      "message": "Tiny fractures hiss, leeching focus over time."
+    }
+  ]
+}

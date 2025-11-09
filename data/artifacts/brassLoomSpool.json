@@ -1,0 +1,36 @@
+﻿{
+  "id": "brassLoomSpool",
+  "name": "Brass Loom Spool",
+  "rarity": "common",
+  "summary": "A spool of filament that stitches stray grains into braided patterns.",
+  "positive": "Steadies the drain for a spell by winding fear into tidy knots.",
+  "negative": "The rewoven threads tug the sands into a warmer current.",
+  "neutral": "Numbers etched along the filament tick down as it unwinds.",
+  "effects": [
+    {
+      "type": "drain",
+      "amount": -0.15,
+      "message": "Tension slides away as you bind loose thoughts."
+    },
+    {
+      "type": "momentum",
+      "direction": "heat",
+      "amount": 2,
+      "message": "The rewoven grain hums with latent energy."
+    },
+    {
+      "type": "combo",
+      "requires": [
+        "chronoLoomBand"
+      ],
+      "message": "Brass Loom Spool feeds the Chrono Loom Band, reducing drain even further.",
+      "effects": [
+        {
+          "type": "drain",
+          "amount": -0.1,
+          "message": "Clockwork stitches reinforce your focus."
+        }
+      ]
+    }
+  ]
+}
