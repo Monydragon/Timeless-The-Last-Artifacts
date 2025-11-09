@@ -4534,59 +4534,143 @@ function proceedScene() {
   }
 }
 
+// JavaScript
 function updateInventoryUI() {
-  if (!inventoryList) return;
-  const summaryMap = new Map();
-  const ordered = [];
-  for (const entry of gameState.inventory) {
-    const id = entry.artifact.id;
-    let stack = summaryMap.get(id);
-    if (!stack) {
-      stack = { artifact: entry.artifact, count: 0 };
-      summaryMap.set(id, stack);
-      ordered.push(stack);
+    if (!inventoryList) return;
+
+    // 1) Build a count summary for the detail panel
+    const summaryMap = new Map();
+    for (const entry of gameState.inventory) {
+        const artifact = entry?.artifact || getArtifactById(entry?.id || entry) || entry;
+        if (!artifact || !artifact.id) continue;
+        const current = summaryMap.get(artifact.id) || { artifact, count: 0 };
+        current.count += 1;
+        summaryMap.set(artifact.id, current);
     }
-    stack.count += 1;
-  }
-  inventorySummary = summaryMap;
-  inventoryList.innerHTML = "";
-  if (!ordered.length) {
-    selectedArtifactKey = null;
-    clearArtifactDetail();
+    inventorySummary = summaryMap;
+
+    // 2) Render one row per unique artifact
+    inventoryList.innerHTML = "";
+    if (!inventorySummary.size) {
+        clearArtifactDetail();
+        const empty = document.createElement("div");
+        empty.className = "inventory-empty";
+        empty.textContent = "No artifacts yet.";
+        inventoryList.appendChild(empty);
+        updateGachaUI();
+        return;
+    }
+
+    const frag = document.createDocumentFragment();
+    for (const { artifact, count } of inventorySummary.values()) {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = `inventory-item rarity-${artifact.rarity || "common"}`;
+        item.dataset.key = artifact.id;
+        item.dataset.artifactId = artifact.id;
+        item.setAttribute("aria-label", artifact.name);
+
+        item.innerHTML = `
+      <span class="artifact-name">${escapeHtml(artifact.name)}</span>
+      ${count > 1 ? `<span class="artifact-dup-count">x${count}</span>` : ""}
+    `;
+
+        item.addEventListener("click", () => {
+            selectedArtifactKey = artifact.id;
+            renderArtifactDetail(artifact, count);
+            highlightSelectedArtifactRow();
+        });
+
+        frag.appendChild(item);
+    }
+    inventoryList.appendChild(frag);
+
+    // 3) Ensure a valid selection and refresh detail
+    if (!selectedArtifactKey || !inventorySummary.has(selectedArtifactKey)) {
+        selectedArtifactKey = inventorySummary.keys().next().value || null;
+    }
+    if (selectedArtifactKey) {
+        const stack = inventorySummary.get(selectedArtifactKey);
+        renderArtifactDetail(stack.artifact, stack.count);
+    } else {
+        clearArtifactDetail();
+    }
+
     updateGachaUI();
     highlightSelectedArtifactRow();
-    return;
-  }
-  for (const stack of ordered) {
-    const artifact = stack.artifact;
-    const li = document.createElement("li");
-    li.className = `inventory-item rarity-${artifact.rarity}`;
-    li.dataset.artifactId = artifact.id;
-    const countBadge = stack.count > 1 ? `<span class="count">×${stack.count}</span>` : "";
-    li.innerHTML = `
-      <div class="summary">
-        <span class="name">${sanitizeText(artifact.name)}</span>
-        <span class="meta">${sanitizeText((artifact.rarity || "").toUpperCase())}</span>
-        ${countBadge}
-      </div>
-      <div class="effects">${[artifact.positive, artifact.neutral, artifact.negative]
-        .filter(Boolean)
-        .map((text) => `- ${sanitizeText(text)}`)
-        .join("<br>")}</div>
-    `;
-    li.addEventListener("click", () => {
-      renderArtifactDetailById(artifact.id);
-      highlightSelectedArtifactRow();
-    });
-    inventoryList.appendChild(li);
-  }
-  if (!selectedArtifactKey || !inventorySummary.has(selectedArtifactKey)) {
-    selectedArtifactKey = ordered[ordered.length - 1].artifact.id;
-  }
-  renderArtifactDetailById(selectedArtifactKey);
-  updateGachaUI();
-  highlightSelectedArtifactRow();
 }
+
+// function updateInventoryUI() {
+//     if (!inventoryList) return;
+//
+//     // 1) Build a count summary for the detail panel
+//     const summaryMap = new Map();
+//     for (const entry of gameState.inventory) {
+//         const artifact = entry?.artifact || getArtifactById(entry?.id || entry) || entry;
+//         if (!artifact || !artifact.id) continue;
+//         const current = summaryMap.get(artifact.id) || { artifact, count: 0 };
+//         current.count += 1;
+//         summaryMap.set(artifact.id, current);
+//     }
+//     inventorySummary = summaryMap;
+//
+//     // 2) Render each collected instance as its own row
+//     inventoryList.innerHTML = "";
+//     if (!gameState.inventory.length) {
+//         clearArtifactDetail();
+//         const empty = document.createElement("div");
+//         empty.className = "inventory-empty";
+//         empty.textContent = "No artifacts yet.";
+//         inventoryList.appendChild(empty);
+//         updateGachaUI();
+//         return;
+//     }
+//
+//     const frag = document.createDocumentFragment();
+//     for (const entry of gameState.inventory) {
+//         const artifact = entry?.artifact || getArtifactById(entry?.id || entry) || entry;
+//         if (!artifact || !artifact.id) continue;
+//
+//         const item = document.createElement("button");
+//         item.type = "button";
+//         item.className = `inventory-item rarity-${artifact.rarity || "common"}`;
+//         // Set both keys to remain compatible with existing selectors/highlight logic
+//         item.dataset.key = artifact.id;
+//         item.dataset.artifactId = artifact.id;
+//         item.setAttribute("aria-label", artifact.name);
+//
+//         const totalForId = inventorySummary.get(artifact.id)?.count || 1;
+//         item.innerHTML = `
+//       <span class="artifact-name">${escapeHtml(artifact.name)}</span>
+//       ${totalForId > 1 ? `<span class="artifact-dup-count">x${totalForId}</span>` : ""}
+//     `;
+//
+//         item.addEventListener("click", () => {
+//             selectedArtifactKey = artifact.id;
+//             renderArtifactDetailById(artifact.id);
+//             highlightSelectedArtifactRow();
+//         });
+//
+//         frag.appendChild(item);
+//     }
+//     inventoryList.appendChild(frag);
+//
+//     // 3) Ensure a valid selection and refresh detail
+//     if (!selectedArtifactKey || !inventorySummary.has(selectedArtifactKey)) {
+//         const first = gameState.inventory[0];
+//         const firstArtifact = first?.artifact || getArtifactById(first?.id || first) || first;
+//         selectedArtifactKey = firstArtifact?.id || null;
+//     }
+//
+//     if (selectedArtifactKey) {
+//         renderArtifactDetailById(selectedArtifactKey);
+//     } else {
+//         clearArtifactDetail();
+//     }
+//
+//     updateGachaUI();
+//     highlightSelectedArtifactRow();
+// }
 
 function updateGachaUI() {
   if (!gachaRollBtn || !gachaChargesLabel) return;

@@ -1,0 +1,94 @@
+🏷️ Title
+
+Timeless: The Last Artifacts
+
+🎯 Short Description
+
+A steampunk roguelite about stabilizing the last hourglass at the end of time. Explore endless chambers, collect paradoxical relics, and survive the flux as reality unravels.
+
+📖 Game Description
+
+Timeless: The Last Artifacts is a steampunk, story-driven roguelite adventure where you must maintain your sanity and stability within a collapsing timeline. The last hourglass of existence is faltering — and with it, the threads of all creation. You are a Timewalker, tasked with venturing into shifting chambers where relics of lost ages still hum with power.
+
+Each chamber is a living paradox — filled with brass machinery, floating sands, and shimmering echoes of what once was. Artifacts you uncover grant immense power, but every gift exacts a price. Can you balance gain and decay long enough to restore the rhythm of time?
+
+⚙️ Gameplay Breakdown
+
+🕰️ Endless Chambers: Every run generates new environments, interactions, and artifacts. No two descents into the flux are ever the same.
+
+⚖️ Sanity vs. Time: Your sanity slowly drains as temporal flux surges. Manage both to survive.
+
+💎 Dynamic Artifacts: Relics offer dual-edged abilities — one beneficial, one harmful — making every discovery a strategic choice.
+
+🧩 Puzzles and Interactions: Each chamber hides unique mechanics, secrets, and echo events that respond to your decisions.
+
+🎮 Solo or Cooperative Mode: Stabilize the timeline alone or with up to 4 other Timewalkers, synchronizing your sanity and fate.
+
+🌌 Procedural Storytelling: Dialogue and environmental details adapt to your decisions, revealing new fragments of the lore every run.
+
+🧭 Story
+
+The world’s last chronometer falters. In the heart of a dying era, the Hourwarden’s relics—artifacts forged to anchor time itself—are lost across collapsing dimensions.
+You, a lone Timewalker (or a small crew of them), awaken within the Flux, a realm where seconds distort, and every motion echoes forever.
+
+The hourglass pulses with unstable energy; sands flow both up and down. To restore balance, you must traverse its chambers, collect the remaining relics, and confront the paradoxes that consume the remnants of time.
+But beware: every artifact you wield accelerates the collapse, twisting cause and effect against you.
+
+Can you preserve your sanity long enough to restore what remains — or will you become just another echo in the endless flux?
+
+💡 How It Fits the Theme: "Endless"
+
+Endless Time: The narrative centers on time loops, collapsing chronologies, and the endless struggle to preserve what’s already gone.
+
+Endless Runs: Procedural generation ensures no two journeys through the hourglass are ever the same.
+
+Endless Choices: Every relic affects your sanity and the world differently, creating an infinite web of possibilities.
+
+Endless Legacy: The Unity 20th Anniversary marks two decades of creation — Timeless celebrates this with a love letter to persistence, creativity, and the eternal cycle of invention.
+
+The game itself is a metaphor for Unity’s legacy — a constant evolution through time, tools, and imagination.
+
+🛠️ Controls
+
+Mouse / Touch: Interact with hotspots and artifacts
+
+ESC: Pause / Options
+
+R: Restart Run
+
+Space: Advance dialogue or continue chamber transitions
+
+🎨 Aesthetic
+
+A brass-and-glass steampunk world with glowing sands, intricate machinery, and ethereal music. Every particle of light feels alive, pulsing with the rhythm of a dying clock.
+
+The visual identity — blending brass filigree, warm amber tones, and mechanical elegance — reflects the fragile beauty of time itself.
+
+🔊 Audio
+
+Ambient steam and ticking clockscapes
+
+Subtle orchestral tones and temporal distortions
+
+Artifact chimes that echo differently based on your sanity level
+
+🌐 Made With
+
+Unity (2025.1)
+
+HTML5 prototype version for browser play
+
+Art direction, writing, and design by Mony Dragon (Dragon Lens Studios)
+
+💬 Tagline / Marketing Blurb
+
+“Time is broken. The last hourglass bleeds sand across infinity — and you are the one chosen to mend it.”
+
+🧩 Suggested itch.io Tags
+
+#Steampunk #Roguelite #Endless #Adventure #Narrative #Puzzle #BrowserGame #Singleplayer #Unity #GameJam
+
+🏁 Submission Notes for Jam
+
+Built for the Unity 20th Anniversary Game Jam, Timeless: The Last Artifacts celebrates Unity’s enduring legacy and the creative community’s endless drive to explore new worlds.
+The game’s core loop embodies the “Endless” theme through infinite chambers, branching outcomes, and a world where every decision ripples across time — forever.
