@@ -44,6 +44,41 @@
           </label>
         </div>
       </section>
+      <section class="title-section">
+        <h2>Choose Run Length</h2>
+        <div id="length-options" role="radiogroup" aria-label="Run length">
+          <label class="mode-option length-option">
+            <input type="radio" name="length" value="very-short" checked />
+            <span class="mode-name">Very Short</span>
+            <span class="mode-desc">3 chambers, quick primer run.</span>
+          </label>
+          <label class="mode-option length-option">
+            <input type="radio" name="length" value="short" />
+            <span class="mode-name">Short</span>
+            <span class="mode-desc">5 chambers, brisk escape.</span>
+          </label>
+          <label class="mode-option length-option">
+            <input type="radio" name="length" value="normal" />
+            <span class="mode-name">Normal</span>
+            <span class="mode-desc">10 chambers, standard expedition.</span>
+          </label>
+          <label class="mode-option length-option">
+            <input type="radio" name="length" value="long" />
+            <span class="mode-name">Long</span>
+            <span class="mode-desc">20 chambers, extended delve.</span>
+          </label>
+          <label class="mode-option length-option">
+            <input type="radio" name="length" value="very-long" />
+            <span class="mode-name">Very Long</span>
+            <span class="mode-desc">50 chambers, marathon run.</span>
+          </label>
+          <label class="mode-option length-option">
+            <input type="radio" name="length" value="timeless" />
+            <span class="mode-name">Timeless</span>
+            <span class="mode-desc">Endless descent, flux without limit.</span>
+          </label>
+        </div>
+      </section>
       <section class="title-section title-actions">
         <button id="start-btn" class="primary">Enter the Hourglass</button>
         <button id="tutorial-btn" class="ghost">How to Play</button>
@@ -178,6 +213,7 @@
       <section class="options-section">
         <h3>Codex</h3>
         <button id="open-codex" class="ghost">Open Relic Codex</button>
+        <button id="gacha-btn" class="ghost">Roll Relic (Gacha)</button>
       </section>
       <footer class="options-footer">
         <button id="options-save" class="primary">Save</button>
@@ -212,6 +248,8 @@
       <ul class="tutorial-hints"></ul>
     </article>
   </template>
+
+  <div id="toast-layer" aria-live="polite" aria-atomic="true"></div>
 
   <script src="main.js"></script>
 </body>

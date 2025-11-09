@@ -54,6 +54,24 @@ body.title-active #game {
   display: none;
 }
 
+#toast-layer,
+.toast,
+.title-card,
+.tutorial-card,
+.options-card,
+.codex-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.reduced-motion *,
+body.reduced-motion *::before,
+body.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 #title-screen .title-card,
 .tutorial-card,
 .options-card,
@@ -109,6 +127,12 @@ body.title-active #game {
 #mode-options {
   display: grid;
   gap: 0.75rem;
+}
+
+#length-options {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .mode-option {
@@ -276,6 +300,22 @@ button.ghost:focus-visible {
   border-color: rgba(246, 197, 107, 0.4);
 }
 
+.tutorial-illustration[data-variant="flux"]::before {
+  border-color: rgba(79, 191, 255, 0.5);
+}
+
+.tutorial-illustration[data-variant="flux"]::after {
+  border-color: rgba(255, 107, 107, 0.45);
+}
+
+.tutorial-illustration[data-variant="relics"]::before {
+  border-color: rgba(255, 239, 180, 0.55);
+}
+
+.tutorial-illustration[data-variant="relics"]::after {
+  border-color: rgba(246, 197, 107, 0.4);
+}
+
 .tutorial-illustration[data-variant="echo"]::before {
   border-color: rgba(191, 144, 255, 0.45);
 }
@@ -364,6 +404,55 @@ body.reduced-motion #flux-indicator[data-state="surge"] .flux-glow {
   justify-content: flex-end;
 }
 
+#toast-layer {
+  position: fixed;
+  top: 1.25rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.toast {
+  min-width: 240px;
+  max-width: 320px;
+  background: rgba(14, 17, 26, 0.95);
+  border: 1px solid rgba(246, 197, 107, 0.35);
+  color: var(--text);
+  border-radius: 16px;
+  padding: 0.85rem 1.1rem;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  display: grid;
+  gap: 0.35rem;
+  animation: toastSlide 0.3s ease, toastFade 0.3s ease 3.4s reverse forwards;
+}
+
+.toast .toast-title {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.toast .toast-body {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.toast.positive {
+  border-color: rgba(74, 222, 128, 0.45);
+}
+
+.toast.negative {
+  border-color: rgba(255, 107, 107, 0.45);
+}
+
+.toast.system {
+  border-color: rgba(246, 197, 107, 0.45);
+}
+
 .codex-card {
   max-width: 680px;
   gap: 1rem;
@@ -405,6 +494,26 @@ body.reduced-motion #flux-indicator[data-state="surge"] .flux-glow {
 
 .codex-entry.rarity-timeless {
   box-shadow: 0 0 24px rgba(255, 239, 180, 0.15);
+}
+
+.codex-entry.rarity-common {
+  border-color: rgba(246, 197, 107, 0.25);
+}
+
+.codex-entry.rarity-uncommon {
+  border-color: rgba(94, 193, 255, 0.35);
+}
+
+.codex-entry.rarity-rare {
+  border-color: rgba(191, 144, 255, 0.35);
+}
+
+.codex-entry.rarity-legendary {
+  border-color: rgba(255, 153, 102, 0.4);
+}
+
+.codex-entry.rarity-timeless {
+  border-color: rgba(255, 239, 180, 0.55);
 }
 
 .codex-entry.rarity-common {
@@ -765,6 +874,28 @@ body.reduced-motion #flux-indicator[data-state="surge"] .flux-glow {
   }
 }
 
+@keyframes toastSlide {
+  0% {
+    transform: translateX(60px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastFade {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+}
+
 #scene-title {
   margin: 0;
   font-size: 1.75rem;
@@ -1075,6 +1206,23 @@ button:hover:not(:disabled) {
 
   button:not(.hotspot) {
     width: 100%;
+  }
+
+  #mode-options,
+  #length-options {
+    grid-template-columns: 1fr;
+  }
+
+  #toast-layer {
+    top: auto;
+    bottom: 1rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    align-items: stretch;
+  }
+
+  .toast {
+    max-width: none;
   }
 
   #scene-board {

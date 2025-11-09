@@ -1,4 +1,4 @@
-﻿const BUILD_VERSION = "0.3.0";
+const BUILD_VERSION = "0.4.0";
 
 const GAME_CONFIG = {
   runLength: 5,
@@ -14,6 +14,27 @@ const BASE_RARITY_WEIGHTS = {
 };
 
 const RARITY_ORDER = ["common", "uncommon", "rare", "legendary", "timeless"];
+
+const RUN_LENGTHS = {
+  "very-short": { label: "Very Short", rooms: 3 },
+  short: { label: "Short", rooms: 5 },
+  normal: { label: "Normal", rooms: 10 },
+  long: { label: "Long", rooms: 20 },
+  "very-long": { label: "Very Long", rooms: 50 },
+  timeless: { label: "Timeless", rooms: Infinity },
+};
+
+const AUDIO_FILES = {
+  ambient: "assets/audio/ambient-steam.wav",
+  relic: "assets/audio/relic-chime.wav",
+  combo: "assets/audio/relic-burst.wav",
+};
+
+const GACHA_BONUS_WEIGHTS = {
+  rare: 1.3,
+  legendary: 1.8,
+  timeless: 1.5,
+};
 
 const GAME_MODES = {
   casual: {
@@ -201,7 +222,7 @@ const STORY_NEGATIVE_LINES = [
 const TUTORIAL_STEPS = [
   {
     title: "Stabilize the Flux",
-    body: "Sanity is your tether. When the flux thaws, interact with hotspots to uncover relics, puzzles, and exits. Keep an eye on the flux indicatorâ€”Frozen means safety, Surging means danger.",
+    body: "Sanity is your tether. When the flux thaws, interact with hotspots to uncover relics, puzzles, and exits. Keep an eye on the flux indicator—Frozen means safety, Surging means danger.",
     hints: [
       "Hotspots glow in the chamber; tap to inspect them.",
       "Advancing requires the exit hotspot to be primed.",
@@ -210,7 +231,7 @@ const TUTORIAL_STEPS = [
   },
   {
     title: "Hunt the Relics",
-    body: "Relics are hidden until you sweep for resonance. Use the Interactions list on mobile to access each hotspot. Some relics synergizeâ€”collecting pairs unlocks powerful bonuses.",
+    body: "Relics are hidden until you sweep for resonance. Use the Interactions list on mobile to access each hotspot. Some relics synergize—collecting pairs unlocks powerful bonuses.",
     hints: [
       "Look for clues in the log and descriptions.",
       "Scan assists and hints reveal the correct search action.",
@@ -222,7 +243,7 @@ const TUTORIAL_STEPS = [
     body: "Dialogues and puzzles shift the hourglass. Choices may grant relics, calm the flux, or cost sanity. Mode difficulty applies multipliers to drain, surges, and relic frequency.",
     hints: [
       "Use relic effects to auto-solve complex puzzles.",
-      "Some choices now reward bonus relicsâ€”watch for codex updates.",
+      "Some choices now reward bonus relics—watch for codex updates.",
     ],
     variant: "echo",
   },
@@ -2232,6 +2253,7 @@ if (titleBuildLabel) {
 
 const gameState = {
   mode: null,
+  lengthKey: "very-short",
   settings: {},
   sanity: 0,
   baseDrain: 1,
@@ -2256,6 +2278,10 @@ const gameState = {
   seed: 0,
   storyContext: null,
   storyCache: {},
+  runTotal: 0,
+  endless: false,
+  clearedRooms: 0,
+  lastSceneBaseId: null,
   audio: {
     ambient: true,
     sfx: true,
@@ -2266,8 +2292,10 @@ const gameState = {
 let tutorialIndex = 0;
 let tutorialActive = false;
 let codexPrepared = false;
+let sceneInstanceCounter = 0;
 
 function resetGameState() {
+  sceneInstanceCounter = 0;
   const modeKey = gameState.mode && GAME_MODES[gameState.mode] ? gameState.mode : "normal";
   gameState.mode = modeKey;
   const modeSettings = { ...GAME_MODES[modeKey].settings };
@@ -2279,9 +2307,23 @@ function resetGameState() {
   gameState.surgeMultiplier = modeSettings.surgeMultiplier;
   gameState.discoveryBoost = modeSettings.discoveryBoost;
   gameState.comboIntensity = modeSettings.comboIntensity;
-  gameState.scenesQueue = chooseScenes(GAME_CONFIG.runLength);
+
+  const selectedLength =
+    gameState.lengthKey && RUN_LENGTHS[gameState.lengthKey] ? gameState.lengthKey : "very-short";
+  gameState.lengthKey = selectedLength;
+  const lengthSettings = RUN_LENGTHS[selectedLength];
+  const runRooms = lengthSettings.rooms;
+  const initialCount = Number.isFinite(runRooms) ? runRooms : Math.min(6, SCENES.length);
+
+  gameState.scenesQueue = chooseScenes(initialCount);
   gameState.sceneAssignments = assignArtifacts(gameState.scenesQueue);
   gameState.currentSceneIndex = 0;
+  gameState.runTotal = runRooms;
+  gameState.endless = !Number.isFinite(runRooms);
+  gameState.clearedRooms = 0;
+  gameState.lastSceneBaseId =
+    gameState.scenesQueue.length > 0 ? gameState.scenesQueue[gameState.scenesQueue.length - 1].baseId : null;
+
   gameState.inventory = [];
   gameState.inventoryIds = new Set();
   gameState.sceneState = {};
@@ -2296,7 +2338,7 @@ function resetGameState() {
   gameState.storyCache = {};
   clearLog();
   addLog(
-    `Mode: ${GAME_MODES[modeKey].label}. The hourglass seals around you. Find the artifacts and escape.`,
+    `Mode: ${GAME_MODES[modeKey].label} | Length: ${lengthSettings.label}. The hourglass seals around you.`,
     "system"
   );
   if (gameState.storyContext) {
@@ -2316,25 +2358,71 @@ function resetGameState() {
 }
 
 function chooseScenes(count) {
+  const result = [];
+  let previousBaseId = null;
+  let target = count;
+  if (!Number.isFinite(target)) {
+    target = Math.min(6, SCENES.length);
+  }
+  while (result.length < target) {
+    const baseScene = pickSceneBase(previousBaseId);
+    const instance = instantiateScene(baseScene);
+    result.push(instance);
+    previousBaseId = instance.baseId;
+  }
+  return result;
+}
+
+function pickSceneBase(excludeBaseId) {
   const pool = [...SCENES];
   shuffle(pool);
-  return pool.slice(0, count);
+  if (excludeBaseId) {
+    const alternative = pool.find((scene) => scene.id !== excludeBaseId);
+    if (alternative) {
+      return alternative;
+    }
+  }
+  return pool[0];
+}
+
+function instantiateScene(baseScene) {
+  sceneInstanceCounter += 1;
+  return {
+    ...baseScene,
+    baseId: baseScene.baseId || baseScene.id,
+    instanceId: `${baseScene.id}#${sceneInstanceCounter}`,
+    hotspots: baseScene.hotspots.map((hotspot) => ({ ...hotspot })),
+  };
+}
+
+function sceneKey(scene) {
+  return scene?.instanceId || scene?.id;
 }
 
 function assignArtifacts(scenes) {
   const assignments = {};
   for (const scene of scenes) {
-    const map = {};
-    for (const hotspot of scene.hotspots) {
-      if (hotspot.type !== "artifact") continue;
-      const pool = hotspot.artifactPool
-        ? ARTIFACTS.filter((a) => hotspot.artifactPool.includes(a.id))
-        : ARTIFACTS;
-      map[hotspot.id] = chooseArtifact(pool);
-    }
-    assignments[scene.id] = map;
+    assignments[sceneKey(scene)] = assignSceneArtifacts(scene);
   }
   return assignments;
+}
+
+function assignSceneArtifacts(scene) {
+  const map = {};
+  for (const hotspot of scene.hotspots) {
+    if (hotspot.type !== "artifact") continue;
+    const pool = hotspot.artifactPool ? ARTIFACTS.filter((a) => hotspot.artifactPool.includes(a.id)) : ARTIFACTS;
+    map[hotspot.id] = chooseArtifact(pool);
+  }
+  return map;
+}
+
+function appendNextScene() {
+  const baseScene = pickSceneBase(gameState.lastSceneBaseId);
+  const instance = instantiateScene(baseScene);
+  gameState.scenesQueue.push(instance);
+  gameState.sceneAssignments[sceneKey(instance)] = assignSceneArtifacts(instance);
+  gameState.lastSceneBaseId = instance.baseId;
 }
 
 function chooseArtifact(pool) {
@@ -3815,6 +3903,7 @@ modeOptions.forEach((option) =>
     // no-op placeholder for future mode tooltips
   })
 );
+
 
 
 
