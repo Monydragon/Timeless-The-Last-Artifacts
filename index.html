@@ -7,7 +7,56 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game">
+  <div id="title-screen" class="screen">
+    <div class="title-card">
+      <div class="title-logo">
+        <span class="title-icon">⧗</span>
+        <h1>Timeless: The Last Artifacts</h1>
+      </div>
+      <p class="title-tagline">Stabilize the hourglass, weave the relics, outlast the flux.</p>
+      <section class="title-section">
+        <h2>Select Mode</h2>
+        <div id="mode-options" role="radiogroup" aria-label="Difficulty modes">
+          <label class="mode-option">
+            <input type="radio" name="mode" value="casual" checked />
+            <span class="mode-name">Casual</span>
+            <span class="mode-desc">Forgiving flux, generous relic flow.</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="easy" />
+            <span class="mode-name">Easy</span>
+            <span class="mode-desc">Steady calm with gentle surges.</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="normal" />
+            <span class="mode-name">Normal</span>
+            <span class="mode-desc">Baseline flux and relic cadence.</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="hard" />
+            <span class="mode-name">Hard</span>
+            <span class="mode-desc">Relentless surges and fragile calm.</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="timeless" />
+            <span class="mode-name">Timeless</span>
+            <span class="mode-desc">Experimental flux storms and rare relic cascades.</span>
+          </label>
+        </div>
+      </section>
+      <section class="title-section title-actions">
+        <button id="start-btn" class="primary">Enter the Hourglass</button>
+        <button id="tutorial-btn" class="ghost">How to Play</button>
+        <button id="options-btn" class="ghost">Options</button>
+      </section>
+      <footer class="title-footer">
+        <span id="title-build">Build v0.3.0</span>
+        <span class="title-note">Audio, accessibility, and relic codex available via Options.</span>
+      </footer>
+    </div>
+  </div>
+
+  <div id="game" class="hidden">
     <header id="hud">
       <div class="hud-section">
         <div class="label">Sanity</div>
@@ -25,10 +74,16 @@
       </div>
       <div class="hud-section hud-version">
         <div class="label">Build</div>
-        <div id="game-version">v0.2.0</div>
+        <div id="game-version">v0.3.0</div>
+      </div>
+      <div class="hud-section">
+        <button id="audio-toggle" class="ghost" aria-pressed="false">Audio On</button>
       </div>
       <div class="hud-section">
         <button id="restart-btn" class="ghost">Restart Run</button>
+      </div>
+      <div class="hud-section">
+        <button id="return-title-btn" class="ghost">Exit to Title</button>
       </div>
     </header>
 
@@ -78,6 +133,68 @@
     </div>
   </div>
 
+  <div id="tutorial-overlay" class="screen hidden" role="dialog" aria-modal="true">
+    <div class="tutorial-card">
+      <header class="tutorial-header">
+        <h2>Hourglass Briefing</h2>
+        <button id="tutorial-close" class="ghost" aria-label="Close tutorial">✕</button>
+      </header>
+      <div id="tutorial-body"></div>
+      <footer class="tutorial-footer">
+        <button id="tutorial-prev" class="ghost">Back</button>
+        <button id="tutorial-next" class="primary">Next</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="options-overlay" class="screen hidden" role="dialog" aria-modal="true">
+    <div class="options-card">
+      <header class="options-header">
+        <h2>Options</h2>
+        <button id="options-close" class="ghost" aria-label="Close options">✕</button>
+      </header>
+      <section class="options-section">
+        <h3>Audio</h3>
+        <label class="toggle">
+          <input type="checkbox" id="ambient-toggle" checked />
+          <span>Ambient engine hum</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="sfx-toggle" checked />
+          <span>Interface and artifact cues</span>
+        </label>
+      </section>
+      <section class="options-section">
+        <h3>Accessibility</h3>
+        <label class="toggle">
+          <input type="checkbox" id="reduced-motion-toggle" />
+          <span>Reduce particle motion</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="high-contrast-toggle" />
+          <span>High-contrast HUD</span>
+        </label>
+      </section>
+      <section class="options-section">
+        <h3>Codex</h3>
+        <button id="open-codex" class="ghost">Open Relic Codex</button>
+      </section>
+      <footer class="options-footer">
+        <button id="options-save" class="primary">Save</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="codex-overlay" class="screen hidden" role="dialog" aria-modal="true">
+    <div class="codex-card">
+      <header class="codex-header">
+        <h2>Relic Codex</h2>
+        <button id="codex-close" class="ghost" aria-label="Close codex">✕</button>
+      </header>
+      <div id="codex-list"></div>
+    </div>
+  </div>
+
   <template id="hotspot-template">
     <button class="hotspot" type="button"></button>
   </template>
@@ -86,6 +203,14 @@
       <span class="action-label"></span>
       <span class="action-context"></span>
     </button>
+  </template>
+  <template id="tutorial-step-template">
+    <article class="tutorial-step">
+      <h3 class="tutorial-step-title"></h3>
+      <div class="tutorial-illustration"></div>
+      <p class="tutorial-step-body"></p>
+      <ul class="tutorial-hints"></ul>
+    </article>
   </template>
 
   <script src="main.js"></script>

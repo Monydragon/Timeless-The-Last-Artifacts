@@ -1,19 +1,86 @@
-﻿const BUILD_VERSION = "0.2.0";
+﻿const BUILD_VERSION = "0.3.0";
 
 const GAME_CONFIG = {
   runLength: 5,
-  startingSanity: 100,
-  baseDrain: 1,
   tickIntervalMs: 1400,
-  momentumCap: 100,
 };
 
-const rarityWeights = {
-  common: 6,
+const BASE_RARITY_WEIGHTS = {
+  common: 5,
   uncommon: 4,
-  rare: 2,
-  mythic: 0.75,
-  timeless: 0.25,
+  rare: 3.2,
+  legendary: 1.6,
+  timeless: 1,
+};
+
+const RARITY_ORDER = ["common", "uncommon", "rare", "legendary", "timeless"];
+
+const GAME_MODES = {
+  casual: {
+    label: "Casual",
+    description: "Forgiving flux, generous relic flow.",
+    settings: {
+      startingSanity: 120,
+      baseDrain: 0.55,
+      momentumCap: 130,
+      surgeMultiplier: 0.85,
+      rarityBias: { rare: 1.35, legendary: 1.65, timeless: 1.4 },
+      discoveryBoost: 1.35,
+      comboIntensity: 1.2,
+    },
+  },
+  easy: {
+    label: "Easy",
+    description: "Steady calm with gentle surges.",
+    settings: {
+      startingSanity: 110,
+      baseDrain: 0.75,
+      momentumCap: 115,
+      surgeMultiplier: 0.95,
+      rarityBias: { rare: 1.2, legendary: 1.45, timeless: 1.2 },
+      discoveryBoost: 1.15,
+      comboIntensity: 1.1,
+    },
+  },
+  normal: {
+    label: "Normal",
+    description: "Baseline flux and relic cadence.",
+    settings: {
+      startingSanity: 100,
+      baseDrain: 1,
+      momentumCap: 100,
+      surgeMultiplier: 1,
+      rarityBias: { rare: 1.1, legendary: 1.25, timeless: 1.1 },
+      discoveryBoost: 1,
+      comboIntensity: 1,
+    },
+  },
+  hard: {
+    label: "Hard",
+    description: "Relentless surges and fragile calm.",
+    settings: {
+      startingSanity: 90,
+      baseDrain: 1.25,
+      momentumCap: 90,
+      surgeMultiplier: 1.2,
+      rarityBias: { rare: 1.05, legendary: 1.15, timeless: 1.05 },
+      discoveryBoost: 0.9,
+      comboIntensity: 0.9,
+    },
+  },
+  timeless: {
+    label: "Timeless",
+    description: "Experimental flux storms and rare relic cascades.",
+    settings: {
+      startingSanity: 95,
+      baseDrain: 1.1,
+      momentumCap: 110,
+      surgeMultiplier: 1.35,
+      rarityBias: { rare: 1.5, legendary: 1.8, timeless: 1.6 },
+      discoveryBoost: 1.4,
+      comboIntensity: 1.3,
+    },
+  },
 };
 
 const MOMENTUM_RATIO = 0.4;
@@ -129,6 +196,45 @@ const STORY_NEGATIVE_LINES = [
   "Your {companion} winces as {omen} gnaw at your focus.",
   "{companionCap} hisses about {omen} brewing in the glass.",
   "Static from {omen} rattles against your thoughts.",
+];
+
+const TUTORIAL_STEPS = [
+  {
+    title: "Stabilize the Flux",
+    body: "Sanity is your tether. When the flux thaws, interact with hotspots to uncover relics, puzzles, and exits. Keep an eye on the flux indicatorâ€”Frozen means safety, Surging means danger.",
+    hints: [
+      "Hotspots glow in the chamber; tap to inspect them.",
+      "Advancing requires the exit hotspot to be primed.",
+    ],
+    variant: "flux",
+  },
+  {
+    title: "Hunt the Relics",
+    body: "Relics are hidden until you sweep for resonance. Use the Interactions list on mobile to access each hotspot. Some relics synergizeâ€”collecting pairs unlocks powerful bonuses.",
+    hints: [
+      "Look for clues in the log and descriptions.",
+      "Scan assists and hints reveal the correct search action.",
+    ],
+    variant: "relics",
+  },
+  {
+    title: "Read the Echoes",
+    body: "Dialogues and puzzles shift the hourglass. Choices may grant relics, calm the flux, or cost sanity. Mode difficulty applies multipliers to drain, surges, and relic frequency.",
+    hints: [
+      "Use relic effects to auto-solve complex puzzles.",
+      "Some choices now reward bonus relicsâ€”watch for codex updates.",
+    ],
+    variant: "echo",
+  },
+  {
+    title: "Tune Your Run",
+    body: "Visit Options to toggle ambient audio, reduce motion, or review the Codex. Modes reconfigure drain, momentum caps, and rarity weightings so each run feels distinct.",
+    hints: [
+      "Casual grants extra calm and relic cascades.",
+      "Timeless introduces volatile surges but massive relic chains.",
+    ],
+    variant: "options",
+  },
 ];
 
 const CORE_ARTIFACTS = [
@@ -332,6 +438,14 @@ function runArtifactEffects(effects, gameState, context) {
         }
         break;
       }
+      case "grantArtifact": {
+        grantArtifactReward(effect, context);
+        break;
+      }
+      case "combo": {
+        handleComboEffect(effect, context);
+        break;
+      }
       case "event": {
         const state = effect.state ?? "active";
         if (state === "calm") {
@@ -487,6 +601,12 @@ const EXPANDED_ARTIFACTS = [
     effects: [
       { type: "drain", amount: -0.15, message: "Tension slides away as you bind loose thoughts." },
       { type: "momentum", direction: "heat", amount: 2, message: "The rewoven grain hums with latent energy." },
+      {
+        type: "combo",
+        requires: ["chronoLoomBand"],
+        message: "Brass Loom Spool feeds the Chrono Loom Band, reducing drain even further.",
+        effects: [{ type: "drain", amount: -0.1, message: "Clockwork stitches reinforce your focus." }],
+      },
     ],
   }),
   createArtifact({
@@ -541,6 +661,14 @@ const EXPANDED_ARTIFACTS = [
       { type: "momentum", direction: "cool", amount: 8, message: "Dust blankets the chamber, damping every motion." },
       { type: "settle", state: "calm", ticks: 2, message: "For a blink the chamber moves as if submerged.", tone: "neutral" },
       { type: "sanity", amount: -2, message: "You cough as metallic grit scratches your throat." },
+      {
+        type: "combo",
+        requires: ["steamDraught"],
+        message: "Clockdust mixes with steam, sealing the chamber in gentle suspension.",
+        effects: [
+          { type: "momentum", direction: "cool", amount: 4, message: "Suspended vapors slow the hourglass heartbeat." },
+        ],
+      },
     ],
   }),
   createArtifact({
@@ -554,6 +682,21 @@ const EXPANDED_ARTIFACTS = [
     effects: [
       { type: "scanAssist", message: "The beetle's light maps subtle seams across the chamber.", tone: "positive" },
       { type: "momentum", direction: "heat", amount: 2, message: "Glittering motes swarm toward the beetle's glow." },
+      {
+        type: "combo",
+        requires: ["resonantChalk"],
+        message: "Lantern Beetle and Resonant Chalk weave a lattice of guidance.",
+        effects: [
+          { type: "momentum", direction: "cool", amount: 4, message: "Stabilizing lines freeze the swirling sand." },
+          {
+            type: "scanAssist",
+            message: "Illuminated chalkwork auto-highlights dormant relic fonts.",
+            tone: "positive",
+          },
+        ],
+        elseMessage: "Chalk markings would let the beetle chart a steadier course.",
+        elseTone: "neutral",
+      },
     ],
   }),
   createArtifact({
@@ -567,6 +710,15 @@ const EXPANDED_ARTIFACTS = [
     effects: [
       { type: "sceneFlag", key: "searchAssist", value: true, message: "Resonant guidelines etch themselves across the floor.", tone: "positive" },
       { type: "drain", amount: 0.05, message: "The residual hum vibrates behind your eyes." },
+      {
+        type: "combo",
+        requires: ["lanternBeetle"],
+        message: "Resonant Chalk locks onto the beetle's beam, mapping hidden hollows.",
+        effects: [
+          { type: "hint", message: "The chalk underlines the precise search motion to take next." },
+          { type: "momentum", direction: "cool", amount: 3, message: "Guided light smooths the chamber's turbulence." },
+        ],
+      },
     ],
   }),
   createArtifact({
@@ -581,6 +733,21 @@ const EXPANDED_ARTIFACTS = [
       { type: "sanity", amount: 5, message: "Heat blooms through your chest, chasing away the chill." },
       { type: "momentum", direction: "cool", amount: 3, message: "Exhaled steam slows the swirling sands." },
       { type: "drain", amount: 0.2, message: "Your pulse races, burning through composure faster." },
+      {
+        type: "combo",
+        requires: ["clockdustSachet"],
+        message: "Steam Draught fuses with clockdust, forming soothing vapor curtains.",
+        effects: [
+          {
+            type: "settle",
+            state: "calm",
+            ticks: 3,
+            message: "The chamber hushes beneath a velveteen fog.",
+            tone: "neutral",
+          },
+        ],
+        elseMessage: "Dust-laden air would make the draught much steadier.",
+      },
     ],
   }),
   createArtifact({
@@ -665,6 +832,15 @@ const EXPANDED_ARTIFACTS = [
     effects: [
       { type: "drain", amount: -0.25, message: "The band cinches distractions into a disciplined rhythm." },
       { type: "momentum", direction: "heat", amount: 5, message: "When it releases, a surge ripples through the sand." },
+      {
+        type: "combo",
+        requires: ["brassLoomSpool"],
+        message: "Chrono Loom Band and Brass Loom Spool braid reinforcements across the chamber.",
+        effects: [
+          { type: "drain", amount: -0.15, message: "Interlaced threads relieve the flux burden." },
+          { type: "shield", message: "Woven cords brace you against the next backlash." },
+        ],
+      },
     ],
   }),
   createArtifact({
@@ -943,7 +1119,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "paradoxAtlas",
     name: "Paradox Atlas",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "An atlas mapping recursive layouts of the hourglass.",
     positive: "Devours a massive swell of momentum and yields a long calm stretch.",
     negative: "The map's contradictions cost a chunk of sanity.",
@@ -957,7 +1133,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "celestialEscapement",
     name: "Celestial Escapement",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "A gleaming escapement that syncs with distant constellations.",
     positive: "Greatly lowers drain and ushers in a deep calm.",
     negative: "The enforced order stores up a later burst of heat.",
@@ -971,7 +1147,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "aeonChoirMatrix",
     name: "Aeon Choir Matrix",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "A crystalline matrix that harmonizes your thoughts with the hourglass.",
     positive: "Provides enduring search insight, a hint, and a surge of sanity.",
     negative: "The choir's chord raises the drain slightly afterward.",
@@ -986,7 +1162,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "hourwardenCrown",
     name: "Hourwarden Crown",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "The ceremonial crown of the hourglass wardens.",
     positive: "Guarantees an escape route and a sturdy ward.",
     negative: "Its authority carries a heavy weight of momentum.",
@@ -1001,7 +1177,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "glasswindCloak",
     name: "Glasswind Cloak",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "A cloak woven from gasified sand cooled into thread.",
     positive: "Wraps you in calm and bolsters sanity.",
     negative: "The cloak siphons a bit more drain as it flutters.",
@@ -1015,7 +1191,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "sunderedMeridian",
     name: "Sundered Meridian",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "A broken meridian rod that redirects the flow of time itself.",
     positive: "Converts a surge of momentum into renewed clarity.",
     negative: "Using it hurts, carving away sanity.",
@@ -1029,7 +1205,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "goldenSingularity",
     name: "Golden Singularity",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "A compressed singularity of gilded sand chained to a ring.",
     positive: "Collapses vast momentum instantly.",
     negative: "The singularity hungers, raising drain and costing sanity.",
@@ -1043,7 +1219,7 @@ const EXPANDED_ARTIFACTS = [
   createArtifact({
     id: "chronoOracleLens",
     name: "Chrono Oracle Lens",
-    rarity: "mythic",
+    rarity: "legendary",
     summary: "An oracle lens that glimpses multiple outcomes at once.",
     positive: "Combines hint, search insight, and a puzzle auto-solution.",
     negative: "The cascading visions batter your sanity.",
@@ -1085,6 +1261,12 @@ const EXPANDED_ARTIFACTS = [
       { type: "shield", message: "Layered loops wrap around you like armor." },
       { type: "drain", amount: 0.3, message: "Maintaining the coil's tension quickens your pulse." },
       { type: "sanity", amount: -5, message: "Keeping so many timelines balanced wears at you." },
+      {
+        type: "grantArtifact",
+        rarity: "legendary",
+        message: "{artifact} unfurls from the Eternum Coil's inner loop.",
+        tone: "system",
+      },
     ],
   }),
   createArtifact({
@@ -1320,6 +1502,14 @@ const SCENES = [
               effect: (gameState, context) => {
                 adjustSanity(gameState, -5, "A contract sigil brands your palm.");
                 context.sceneState.puzzles["gallery-mural"] = true;
+                grantArtifactReward(
+                  {
+                    pool: ["prismDiver", "sandScribe", "latticeCompass"],
+                    message: "{artifact} slides from a hidden alcove the curator reveals.",
+                    tone: "system",
+                  },
+                  context
+                );
               },
               log: "The gallery rearranges itself obediently.",
             },
@@ -1525,6 +1715,14 @@ const SCENES = [
               effect: (gameState, context) => {
                 adjustSanity(gameState, -7, "You relinquish a cherished recollection.");
                 context.sceneState.flags.hintAvailable = true;
+                grantArtifactReward(
+                  {
+                    rarity: "rare",
+                    message: "{artifact} condenses within a memory bottle and floats to your grasp.",
+                    tone: "system",
+                  },
+                  context
+                );
               },
               log: "An illuminated sigil marks the correct strand.",
             },
@@ -1626,6 +1824,14 @@ const SCENES = [
               effect: (gameState, context) => {
                 adjustTime(gameState, -20, "The dials drink deeply of your calm reserves.");
                 context.sceneState.puzzles["dials-constellation"] = true;
+                grantArtifactReward(
+                  {
+                    rarity: "legendary",
+                    message: "{artifact} spins out of the constellation's core.",
+                    tone: "system",
+                  },
+                  context
+                );
               },
               log: "The constellation locks into place above you.",
             },
@@ -1833,7 +2039,17 @@ const SCENES = [
               id: "trade-calm",
               title: "Spend calm",
               description: "Meticulously calibrate it yourself.",
-              effect: (gameState) => adjustTime(gameState, +15, "Patience yields understanding."),
+              effect: (gameState, context) => {
+                adjustTime(gameState, +15, "Patience yields understanding.");
+                grantArtifactReward(
+                  {
+                    pool: ["gearwrightGauntlet", "pulseEngineCore", "timestepChalice"],
+                    message: "{artifact} clicks into place beside the ignition.",
+                    tone: "system",
+                  },
+                  context
+                );
+              },
               log: "The mechanic observes silently, grudgingly impressed.",
             },
           ],
@@ -1956,6 +2172,9 @@ const SCENES = [
 
 const template = document.getElementById("hotspot-template");
 const actionTemplate = document.getElementById("action-card-template");
+const tutorialStepTemplate = document.getElementById("tutorial-step-template");
+const titleScreen = document.getElementById("title-screen");
+const gameContainer = document.getElementById("game");
 const sceneBoard = document.getElementById("scene-board");
 const sceneHotspots = document.getElementById("scene-hotspots");
 const sceneTitle = document.getElementById("scene-title");
@@ -1971,6 +2190,27 @@ const fluxIndicator = document.getElementById("flux-indicator");
 const fluxStateLabel = document.getElementById("flux-state");
 const proceedBtn = document.getElementById("proceed-btn");
 const restartBtn = document.getElementById("restart-btn");
+const returnTitleBtn = document.getElementById("return-title-btn");
+const audioToggleBtn = document.getElementById("audio-toggle");
+const startBtn = document.getElementById("start-btn");
+const tutorialBtn = document.getElementById("tutorial-btn");
+const openOptionsBtn = document.getElementById("options-btn");
+const tutorialOverlay = document.getElementById("tutorial-overlay");
+const tutorialBody = document.getElementById("tutorial-body");
+const tutorialPrev = document.getElementById("tutorial-prev");
+const tutorialNext = document.getElementById("tutorial-next");
+const tutorialClose = document.getElementById("tutorial-close");
+const optionsOverlay = document.getElementById("options-overlay");
+const optionsClose = document.getElementById("options-close");
+const optionsSave = document.getElementById("options-save");
+const ambientToggle = document.getElementById("ambient-toggle");
+const sfxToggle = document.getElementById("sfx-toggle");
+const reducedMotionToggle = document.getElementById("reduced-motion-toggle");
+const highContrastToggle = document.getElementById("high-contrast-toggle");
+const openCodexBtn = document.getElementById("open-codex");
+const codexOverlay = document.getElementById("codex-overlay");
+const codexClose = document.getElementById("codex-close");
+const codexList = document.getElementById("codex-list");
 const modal = document.getElementById("modal");
 const modalTitle = document.getElementById("modal-title");
 const modalBody = document.getElementById("modal-body");
@@ -1978,15 +2218,28 @@ const modalChoices = document.getElementById("modal-choices");
 const modalClose = document.getElementById("modal-close");
 const sceneArtCanvas = document.getElementById("scene-art");
 const sceneArtCtx = sceneArtCanvas ? sceneArtCanvas.getContext("2d") : null;
+const modeOptions = Array.from(document.querySelectorAll('input[name="mode"]'));
 const versionLabel = document.getElementById("game-version");
+const titleBuildLabel = document.getElementById("title-build");
+const bodyEl = document.body;
 
 if (versionLabel) {
   versionLabel.textContent = `v${BUILD_VERSION}`;
 }
+if (titleBuildLabel) {
+  titleBuildLabel.textContent = `Build v${BUILD_VERSION}`;
+}
 
 const gameState = {
-  sanity: GAME_CONFIG.startingSanity,
-  drainRate: GAME_CONFIG.baseDrain,
+  mode: null,
+  settings: {},
+  sanity: 0,
+  baseDrain: 1,
+  drainRate: 1,
+  momentumCap: 100,
+  surgeMultiplier: 1,
+  discoveryBoost: 1,
+  comboIntensity: 1,
   scenesQueue: [],
   sceneAssignments: {},
   currentSceneIndex: 0,
@@ -2003,11 +2256,29 @@ const gameState = {
   seed: 0,
   storyContext: null,
   storyCache: {},
+  audio: {
+    ambient: true,
+    sfx: true,
+    reducedMotion: false,
+  },
 };
 
+let tutorialIndex = 0;
+let tutorialActive = false;
+let codexPrepared = false;
+
 function resetGameState() {
-  gameState.sanity = GAME_CONFIG.startingSanity;
-  gameState.drainRate = GAME_CONFIG.baseDrain;
+  const modeKey = gameState.mode && GAME_MODES[gameState.mode] ? gameState.mode : "normal";
+  gameState.mode = modeKey;
+  const modeSettings = { ...GAME_MODES[modeKey].settings };
+  gameState.settings = modeSettings;
+  gameState.sanity = modeSettings.startingSanity;
+  gameState.baseDrain = modeSettings.baseDrain;
+  gameState.drainRate = modeSettings.baseDrain;
+  gameState.momentumCap = modeSettings.momentumCap;
+  gameState.surgeMultiplier = modeSettings.surgeMultiplier;
+  gameState.discoveryBoost = modeSettings.discoveryBoost;
+  gameState.comboIntensity = modeSettings.comboIntensity;
   gameState.scenesQueue = chooseScenes(GAME_CONFIG.runLength);
   gameState.sceneAssignments = assignArtifacts(gameState.scenesQueue);
   gameState.currentSceneIndex = 0;
@@ -2024,7 +2295,10 @@ function resetGameState() {
   gameState.storyContext = generateStoryContext(gameState.seed);
   gameState.storyCache = {};
   clearLog();
-  addLog("The hourglass seals around you. Find the artifacts and escape.", "system");
+  addLog(
+    `Mode: ${GAME_MODES[modeKey].label}. The hourglass seals around you. Find the artifacts and escape.`,
+    "system"
+  );
   if (gameState.storyContext) {
     const { alias, companion, destination } = gameState.storyContext;
     addLog(
@@ -2066,7 +2340,7 @@ function assignArtifacts(scenes) {
 function chooseArtifact(pool) {
   const weightedPool = pool.map((artifact) => ({
     artifact,
-    weight: rarityWeights[artifact.rarity] ?? 1,
+    weight: computeRarityWeight(artifact),
   }));
   const totalWeight = weightedPool.reduce((sum, item) => sum + item.weight, 0);
   let roll = Math.random() * totalWeight;
@@ -2080,6 +2354,104 @@ function chooseArtifact(pool) {
 
 function getArtifactById(id) {
   return ARTIFACTS.find((artifact) => artifact.id === id) || null;
+}
+
+function computeRarityWeight(artifact) {
+  const base = BASE_RARITY_WEIGHTS[artifact.rarity] ?? 1;
+  const bias = gameState.settings?.rarityBias?.[artifact.rarity] ?? 1;
+  return base * bias;
+}
+
+function awardArtifact(artifact, message, tone, context) {
+  if (!artifact) return false;
+  const scene = context?.scene || currentScene();
+  const sceneState = scene
+    ? ensureSceneState(scene.id)
+    : context?.sceneState || {
+        resolvedHotspots: new Set(),
+        puzzles: {},
+        flags: {},
+        dialogues: {},
+        discoveredArtifacts: new Set(),
+        searchProfiles: {},
+      };
+  if (gameState.inventoryIds.has(artifact.id)) {
+    return false;
+  }
+  gameState.inventory.push({ artifact, sceneId: scene ? scene.id : "direct" });
+  gameState.inventoryIds.add(artifact.id);
+  const applyContext = { scene, hotspot: null, sceneState, artifact };
+  artifact.apply(gameState, applyContext);
+  updateInventoryUI();
+  updateHud();
+  if (message && !gameState.gameOver) {
+    addLog(message.replace("{artifact}", artifact.name), tone ?? "system");
+  } else {
+    addLog(`${artifact.name} resonates and joins your collection.`, tone ?? "system");
+  }
+  audioManager.playEffect("artifact");
+  renderScene();
+  return true;
+}
+
+function grantArtifactReward(effect, context) {
+  let artifact = null;
+  if (effect.artifactId) {
+    artifact = getArtifactById(effect.artifactId);
+  }
+  let pool = ARTIFACTS;
+  if (effect.pool && effect.pool.length) {
+    pool = ARTIFACTS.filter((item) => effect.pool.includes(item.id));
+  } else if (effect.rarity) {
+    pool = ARTIFACTS.filter((item) => item.rarity === effect.rarity);
+  }
+  if (!artifact) {
+    let candidates = pool;
+    if (effect.unique !== false) {
+      const uniquePool = candidates.filter((item) => !gameState.inventoryIds.has(item.id));
+      if (uniquePool.length) {
+        candidates = uniquePool;
+      }
+    }
+    if (!candidates.length) {
+      candidates = ARTIFACTS.filter((item) => !gameState.inventoryIds.has(item.id));
+    }
+    artifact = candidates.length ? chooseArtifact(candidates) : null;
+  }
+  if (!artifact) return;
+  if (effect.unique !== false && gameState.inventoryIds.has(artifact.id)) {
+    if (effect.alreadyMessage) {
+      addLog(effect.alreadyMessage.replace("{artifact}", artifact.name), effect.alreadyTone ?? "neutral");
+    }
+    return;
+  }
+  const success = awardArtifact(artifact, effect.message, effect.tone, context);
+  if (!success && effect.alreadyMessage) {
+    addLog(effect.alreadyMessage.replace("{artifact}", artifact.name), effect.alreadyTone ?? "neutral");
+  }
+}
+
+function handleComboEffect(effect, context) {
+  const requires = effect.requires || [];
+  const hasAll = requires.every((id) => gameState.inventoryIds.has(id));
+  if (hasAll) {
+    if (effect.message && !gameState.gameOver) {
+      addLog(effect.message, effect.tone ?? "positive");
+    }
+    if (effect.effects && effect.effects.length) {
+      const scale = gameState.comboIntensity || 1;
+      const scaled = effect.effects.map((inner) => {
+        if (!inner) return inner;
+        if (typeof inner.amount === "number" && ["momentum", "drain", "sanity"].includes(inner.type)) {
+          return { ...inner, amount: inner.amount * scale };
+        }
+        return inner;
+      });
+      runArtifactEffects(scaled, gameState, context);
+    }
+  } else if (effect.elseMessage && !gameState.gameOver) {
+    addLog(effect.elseMessage, effect.elseTone ?? "neutral");
+  }
 }
 
 function ensureSceneFlavor(scene) {
@@ -2414,6 +2786,7 @@ function collectArtifact(scene, hotspot, sceneState) {
   updateHud();
   addLog(`${artifact.name} claimed.`, "system");
   renderScene();
+  audioManager.playEffect("artifact");
 }
 
 function initiateArtifactSearch(scene, hotspot, sceneState, artifact) {
@@ -2421,7 +2794,12 @@ function initiateArtifactSearch(scene, hotspot, sceneState, artifact) {
   const profile = ensureSearchProfile(sceneState, hotspot, artifact);
   const globalAssist = Boolean(gameState.flags.scanAssist);
   const localAssist = Boolean(sceneState.flags.searchAssist);
-  const hintActive = Boolean(sceneState.flags.hintAvailable || globalAssist || localAssist);
+  const hintActive = Boolean(
+    sceneState.flags.hintAvailable ||
+      globalAssist ||
+      localAssist ||
+      (gameState.discoveryBoost && gameState.discoveryBoost > 1.2)
+  );
 
   if (hintActive && !profile.hinted) {
     profile.hinted = true;
@@ -2880,11 +3258,13 @@ function applyDrift(multiplier) {
 
 function heatMomentum(amount) {
   if (!amount || gameState.gameOver) return;
+  const surgeFactor = gameState.surgeMultiplier || 1;
+  const adjusted = amount * surgeFactor;
   gameState.temporalMomentum = Math.min(
-    GAME_CONFIG.momentumCap,
-    gameState.temporalMomentum + amount
+    gameState.momentumCap,
+    gameState.temporalMomentum + adjusted
   );
-  if (gameState.temporalMomentum >= GAME_CONFIG.momentumCap) {
+  if (gameState.temporalMomentum >= gameState.momentumCap) {
     endRun("A temporal surge overwhelms you. The hourglass floods in a single breath.");
     return;
   }
@@ -3001,10 +3381,12 @@ function openModal({ title, body, choices }) {
     modalChoices.style.display = "none";
   }
   modal.classList.remove("hidden");
+  audioManager.playEffect("ui");
 }
 
 function closeModal() {
   modal.classList.add("hidden");
+  audioManager.playEffect("ui");
 }
 
 function shuffle(array) {
@@ -3018,16 +3400,425 @@ function randomFrom(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+function createAudioManager() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const context = AudioContext ? new AudioContext() : null;
+  let ambientStopper = null;
+  let unlocked = false;
+
+  const ambientGain = context ? context.createGain() : null;
+  const sfxGain = context ? context.createGain() : null;
+  if (ambientGain && sfxGain && context) {
+    ambientGain.gain.value = 0.2;
+    sfxGain.gain.value = 0.35;
+    ambientGain.connect(context.destination);
+    sfxGain.connect(context.destination);
+  }
+
+  function ensureContext() {
+    if (!context) return;
+    if (context.state === "suspended") {
+      context.resume();
+    }
+    unlocked = true;
+  }
+
+  function playAmbient() {
+    if (!context || !ambientGain) return;
+    ensureContext();
+    if (ambientStopper) return;
+    ambientStopper = buildSteamAmbient(context, ambientGain, gameState.audio.reducedMotion);
+  }
+
+  function stopAmbient() {
+    if (ambientStopper) {
+      ambientStopper.stop();
+      ambientStopper = null;
+    }
+  }
+
+  function playEffect(kind) {
+    if (!context || !sfxGain || !gameState.audio.sfx) return;
+    ensureContext();
+    createSteamEffect(context, sfxGain, kind, gameState.audio.reducedMotion);
+  }
+
+  function setAmbientEnabled(enabled) {
+    if (enabled) {
+      playAmbient();
+    } else {
+      stopAmbient();
+    }
+  }
+
+  function setReducedMotion(enabled) {
+    if (ambientStopper && ambientStopper.setReducedMotion) {
+      ambientStopper.setReducedMotion(enabled);
+    }
+  }
+
+  return {
+    context,
+    unlocked: () => unlocked,
+    unlock: ensureContext,
+    playAmbient,
+    stopAmbient,
+    playEffect,
+    setAmbientEnabled,
+    setReducedMotion,
+  };
+}
+
+function buildSteamAmbient(context, destination, reducedMotion) {
+  const noiseBuffer = context.createBuffer(1, context.sampleRate * 2, context.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+  let lastOut = 0;
+  for (let i = 0; i < data.length; i++) {
+    const white = Math.random() * 2 - 1;
+    data[i] = (lastOut + 0.02 * white) / 1.02;
+    lastOut = data[i];
+    data[i] *= 1.8;
+  }
+
+  const source = context.createBufferSource();
+  source.buffer = noiseBuffer;
+  source.loop = true;
+
+  const filter = context.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = reducedMotion ? 500 : 900;
+  filter.Q.value = 0.7;
+
+  const tremGain = context.createGain();
+  tremGain.gain.value = 0.45;
+
+  source.connect(filter).connect(tremGain).connect(destination);
+  source.start(0);
+
+  const hum = context.createOscillator();
+  hum.type = "sine";
+  hum.frequency.value = 38;
+  const humGain = context.createGain();
+  humGain.gain.value = 0.09;
+  hum.connect(humGain).connect(destination);
+  hum.start(0);
+
+  const pulse = context.createOscillator();
+  pulse.type = "triangle";
+  pulse.frequency.value = reducedMotion ? 0.06 : 0.08;
+  const pulseGain = context.createGain();
+  pulseGain.gain.value = 0.12;
+  pulse.connect(pulseGain).connect(filter.frequency);
+  pulse.start(0);
+
+  return {
+    stop() {
+      source.stop();
+      hum.stop();
+      pulse.stop();
+      source.disconnect();
+      hum.disconnect();
+      pulse.disconnect();
+      filter.disconnect();
+      tremGain.disconnect();
+      humGain.disconnect();
+      pulseGain.disconnect();
+    },
+    setReducedMotion(enabled) {
+      filter.frequency.value = enabled ? 500 : 900;
+      pulse.frequency.value = enabled ? 0.04 : 0.08;
+    },
+  };
+}
+
+function createSteamEffect(context, destination, type, reducedMotion) {
+  const burst = context.createBuffer(1, context.sampleRate * 0.4, context.sampleRate);
+  const data = burst.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    const white = Math.random() * 2 - 1;
+    data[i] = white * Math.pow(1 - i / data.length, reducedMotion ? 1.5 : 1);
+  }
+  const src = context.createBufferSource();
+  src.buffer = burst;
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(type === "artifact" ? 0.55 : 0.35, context.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.35);
+  const filter = context.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value =
+    type === "artifact" ? (reducedMotion ? 900 : 1200) : reducedMotion ? 400 : 650;
+  src.connect(filter).connect(gain).connect(destination);
+  src.start();
+  src.stop(context.currentTime + 0.5);
+}
+
+function getSelectedMode() {
+  const selected = modeOptions.find((option) => option.checked);
+  return selected ? selected.value : "normal";
+}
+
+function applyModeSelection(modeKey) {
+  modeOptions.forEach((option) => {
+    option.checked = option.value === modeKey;
+  });
+}
+
+function startNewRun() {
+  const selectedMode = getSelectedMode();
+  gameState.mode = selectedMode;
+  bodyEl.classList.remove("title-active");
+  titleScreen.classList.add("hidden");
+  gameContainer.classList.remove("hidden");
+  tutorialOverlay.classList.add("hidden");
+  optionsOverlay.classList.add("hidden");
+  codexOverlay.classList.add("hidden");
+  resetGameState();
+  applyAccessibilitySettings();
+  syncAudioState();
+  updateAudioUI();
+}
+
+function handleRestart() {
+  resetGameState();
+  syncAudioState();
+}
+
+function enterTitleScreen() {
+  stopLoop();
+  bodyEl.classList.add("title-active");
+  applyModeSelection(gameState.mode || "casual");
+  titleScreen.classList.remove("hidden");
+  gameContainer.classList.add("hidden");
+  tutorialOverlay.classList.add("hidden");
+  optionsOverlay.classList.add("hidden");
+  codexOverlay.classList.add("hidden");
+  tutorialActive = false;
+  codexPrepared = false;
+  audioManager.stopAmbient();
+  updateAudioUI();
+}
+
+function openTutorial(startAt = 0) {
+  tutorialIndex = startAt;
+  tutorialActive = true;
+  renderTutorialStep(tutorialIndex);
+  tutorialOverlay.classList.remove("hidden");
+}
+
+function closeTutorial() {
+  tutorialActive = false;
+  tutorialOverlay.classList.add("hidden");
+}
+
+function renderTutorialStep(index) {
+  const step = TUTORIAL_STEPS[index];
+  tutorialBody.innerHTML = "";
+  if (!step) return;
+  const fragment = tutorialStepTemplate.content.firstElementChild.cloneNode(true);
+  fragment.querySelector(".tutorial-step-title").textContent = step.title;
+  const illustration = fragment.querySelector(".tutorial-illustration");
+  illustration.dataset.variant = step.variant || "";
+  fragment.querySelector(".tutorial-step-body").textContent = step.body;
+  const hintsList = fragment.querySelector(".tutorial-hints");
+  hintsList.innerHTML = step.hints
+    .map((hint) => `<li>${hint}</li>`)
+    .join("");
+  tutorialBody.appendChild(fragment);
+  tutorialPrev.disabled = index === 0;
+  tutorialNext.textContent = index === TUTORIAL_STEPS.length - 1 ? "Close" : "Next";
+}
+
+function openOptions() {
+  ambientToggle.checked = gameState.audio.ambient;
+  sfxToggle.checked = gameState.audio.sfx;
+  reducedMotionToggle.checked = gameState.audio.reducedMotion;
+  highContrastToggle.checked = bodyEl.classList.contains("high-contrast");
+  optionsOverlay.classList.remove("hidden");
+}
+
+function closeOptions() {
+  optionsOverlay.classList.add("hidden");
+}
+
+function handleOptionsSave() {
+  gameState.audio.ambient = ambientToggle.checked;
+  gameState.audio.sfx = sfxToggle.checked;
+  gameState.audio.reducedMotion = reducedMotionToggle.checked;
+  bodyEl.classList.toggle("high-contrast", highContrastToggle.checked);
+  applyAccessibilitySettings();
+  syncAudioState();
+  updateAudioUI();
+  closeOptions();
+}
+
+function openCodex() {
+  if (!codexPrepared) {
+    renderCodex();
+    codexPrepared = true;
+  }
+  optionsOverlay.classList.add("hidden");
+  codexOverlay.classList.remove("hidden");
+}
+
+function closeCodex() {
+  codexOverlay.classList.add("hidden");
+}
+
+function renderCodex() {
+  codexList.innerHTML = "";
+  const sorted = [...ARTIFACTS].sort((a, b) => {
+    const aIndex = RARITY_ORDER.indexOf(a.rarity);
+    const bIndex = RARITY_ORDER.indexOf(b.rarity);
+    if (aIndex === bIndex) {
+      return a.name.localeCompare(b.name);
+    }
+    return aIndex - bIndex;
+  });
+  for (const artifact of sorted) {
+    const entry = document.createElement("section");
+    entry.className = `codex-entry rarity-${artifact.rarity}`;
+    entry.innerHTML = `
+      <div class="codex-name">${artifact.name}</div>
+      <div class="codex-summary">${artifact.summary}</div>
+      <div class="codex-effects">
+        <strong>Positive:</strong> ${artifact.positive || "&mdash;"}<br>
+        <strong>Neutral:</strong> ${artifact.neutral || "&mdash;"}<br>
+        <strong>Negative:</strong> ${artifact.negative || "&mdash;"}
+      </div>
+    `;
+    codexList.appendChild(entry);
+  }
+}
+
+function applyAccessibilitySettings() {
+  bodyEl.classList.toggle("reduced-motion", gameState.audio.reducedMotion);
+  audioManager.setReducedMotion(gameState.audio.reducedMotion);
+}
+
+function toggleAudioMaster() {
+  const enabled = gameState.audio.ambient || gameState.audio.sfx;
+  const nextState = !enabled;
+  gameState.audio.ambient = nextState;
+  gameState.audio.sfx = nextState;
+  if (ambientToggle) ambientToggle.checked = nextState;
+  if (sfxToggle) sfxToggle.checked = nextState;
+  syncAudioState();
+  updateAudioUI();
+}
+
+function syncAudioState() {
+  if (gameState.audio.ambient) {
+    audioManager.setAmbientEnabled(true);
+  } else {
+    audioManager.stopAmbient();
+  }
+  updateAudioUI();
+}
+
+function updateAudioUI() {
+  const ambientOn = gameState.audio.ambient;
+  const sfxOn = gameState.audio.sfx;
+  if (audioToggleBtn) {
+    const label = ambientOn || sfxOn ? "Audio On" : "Audio Off";
+    audioToggleBtn.textContent = label;
+    audioToggleBtn.setAttribute("aria-pressed", ambientOn || sfxOn ? "true" : "false");
+  }
+}
+
+const audioManager = createAudioManager();
+
+applyModeSelection("casual");
+enterTitleScreen();
+updateAudioUI();
+applyAccessibilitySettings();
+
 proceedBtn.addEventListener("click", proceedScene);
-restartBtn.addEventListener("click", resetGameState);
+restartBtn.addEventListener("click", handleRestart);
+if (returnTitleBtn) {
+  returnTitleBtn.addEventListener("click", enterTitleScreen);
+}
+if (startBtn) {
+  startBtn.addEventListener("click", () => {
+    audioManager.unlock();
+    startNewRun();
+  });
+}
+if (tutorialBtn) {
+  tutorialBtn.addEventListener("click", () => {
+    audioManager.unlock();
+    openTutorial(0);
+  });
+}
+if (openOptionsBtn) {
+  openOptionsBtn.addEventListener("click", openOptions);
+}
+if (optionsClose) {
+  optionsClose.addEventListener("click", closeOptions);
+}
+if (optionsSave) {
+  optionsSave.addEventListener("click", handleOptionsSave);
+}
+if (tutorialPrev) {
+  tutorialPrev.addEventListener("click", () => {
+    if (tutorialIndex > 0) {
+      tutorialIndex -= 1;
+      renderTutorialStep(tutorialIndex);
+    }
+  });
+}
+if (tutorialNext) {
+  tutorialNext.addEventListener("click", () => {
+    if (tutorialIndex >= TUTORIAL_STEPS.length - 1) {
+      closeTutorial();
+    } else {
+      tutorialIndex += 1;
+      renderTutorialStep(tutorialIndex);
+    }
+  });
+}
+if (tutorialClose) {
+  tutorialClose.addEventListener("click", closeTutorial);
+}
+if (audioToggleBtn) {
+  audioToggleBtn.addEventListener("click", toggleAudioMaster);
+}
+if (openCodexBtn) {
+  openCodexBtn.addEventListener("click", openCodex);
+}
+if (codexClose) {
+  codexClose.addEventListener("click", closeCodex);
+}
 modalClose.addEventListener("click", closeModal);
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    closeModal();
+    if (!modal.classList.contains("hidden")) {
+      closeModal();
+      return;
+    }
+    if (!tutorialOverlay.classList.contains("hidden")) {
+      closeTutorial();
+      return;
+    }
+    if (!optionsOverlay.classList.contains("hidden")) {
+      closeOptions();
+      return;
+    }
+    if (!codexOverlay.classList.contains("hidden")) {
+      closeCodex();
+      return;
+    }
   }
 });
 
-resetGameState();
+modeOptions.forEach((option) =>
+  option.addEventListener("change", () => {
+    // no-op placeholder for future mode tooltips
+  })
+);
+
+
+
+
 
 
 
